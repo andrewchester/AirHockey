@@ -8,12 +8,12 @@ public class AirHockey {
 	private GameBoard board;
 	
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 
-	final int WIDTH = 500;
-	final int HEIGHT = 900;
+	private final int WIDTH = 500;
+	private final int HEIGHT = 900;
 	
 	AirHockey(){
 		frame = new JFrame("Air Hockey");
-		board = new GameBoard();
+		board = new GameBoard(gameState, WIDTH, HEIGHT);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
