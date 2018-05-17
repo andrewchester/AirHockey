@@ -7,7 +7,7 @@ public class AirHockey {
 	private JFrame frame;
 	private GameBoard board;
 	
-	int gameState = 0; //0 = main menu, 1 = difficulty menu, 
+	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game
 	private final int WIDTH = 480;
 	private final int HEIGHT = 750;
 	
