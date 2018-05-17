@@ -18,7 +18,7 @@ public class AirHockey {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setSize(500, 800);
+		frame.setSize(WIDTH, HEIGHT);
 		
 		frame.add(board);
 		frame.setVisible(true);
