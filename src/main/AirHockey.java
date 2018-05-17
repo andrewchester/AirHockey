@@ -8,8 +8,8 @@ public class AirHockey {
 	private GameBoard board;
 	
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 
-	private final int WIDTH = 500;
-	private final int HEIGHT = 900;
+	private final int WIDTH = 480;
+	private final int HEIGHT = 750;
 	
 	AirHockey(){
 		frame = new JFrame("Air Hockey");

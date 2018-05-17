@@ -1,5 +1,7 @@
 package main;
 
+//Image Source(background): https://www.codeproject.com/KB/mobile/432054/bariers.jpg
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -13,7 +15,6 @@ import javax.swing.JPanel;
 public class GameBoard extends JPanel {
 
 	private int gameState, w, h;
-	private int x, y, radius;
 	private BufferedImage background;
 	private Image background_resized;
 
@@ -23,10 +24,6 @@ public class GameBoard extends JPanel {
 		this.gameState = gameState;
 		this.w = w;
 		this.h = h;
-		
-		this.radius = 100;
-		this.x = (w / 2) - (radius / 2);
-		this.y = (h / 2) - (radius / 2);
 		
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
