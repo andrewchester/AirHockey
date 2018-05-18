@@ -68,6 +68,11 @@ public class GamePanel extends JPanel {
 			
 		}
 	}
+	public void clicked(MenuButton b) {
+		if(b.getMessage() == "Start") {
+			game.setGameState(3);
+		}
+	}
 	
 	public ArrayList<MenuButton> getButtons(){
 		return buttons;

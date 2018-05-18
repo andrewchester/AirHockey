@@ -49,4 +49,7 @@ public class MenuButton {
 	public void setHovered(boolean hovered) {
 		this.hovered = hovered;
 	}
+	public String getMessage() {
+		return message;
+	}
 }
