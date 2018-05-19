@@ -1,10 +1,13 @@
 package main;
 
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -16,11 +19,12 @@ public class AirHockey implements Runnable{
 	private Player player;
 	
 	//System Variables
-	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game
+	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game, 4 = paused
 	private final int WIDTH = 496;
 	private final int HEIGHT = 759;
 	private final int FPS = 60;
 	private int mx = 0, my = 0;
+	private boolean showingCursor = true;
 	
 	//Thread
 	private Thread updateThread;
@@ -47,22 +51,24 @@ public class AirHockey implements Runnable{
 				mx = e.getX();
 				my = e.getY();
 				
-				for(MenuButton b : panel.getButtons())
-					if(b.getBounds().contains(mx - 5, my - 20)) { 
-						b.setHovered(true);
-						frame.setCursor(Cursor.HAND_CURSOR);
-					}else {
-						b.setHovered(false);
-						frame.setCursor(Cursor.DEFAULT_CURSOR);
-					}
+				if(gameState == 0)
+					for(MenuButton b : panel.getButtons())
+						if(b.getBounds().contains(mx - 5, my - 20)) { 
+							b.setHovered(true);
+							frame.setCursor(Cursor.HAND_CURSOR);
+						}else {
+							b.setHovered(false);
+							frame.setCursor(Cursor.DEFAULT_CURSOR);
+						}
 			}
 		});
 		
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				for(MenuButton b : panel.getButtons())
-					if(b.getBounds().contains(mx - 5, my - 20))
-						panel.clicked(b);
+				if(gameState == 0)
+					for(MenuButton b : panel.getButtons())
+						if(b.getBounds().contains(mx - 5, my - 20))
+							panel.clicked(b);
 			}
 		});
 		
@@ -71,16 +77,9 @@ public class AirHockey implements Runnable{
 				int key = e.getKeyCode();
 				if(key == KeyEvent.VK_ESCAPE) {
 					if(gameState == 3)
-						if(!paused) {
-							try {
-								updateThread.wait();
-							} catch (InterruptedException ex) {
-								// TODO Auto-generated catch block
-								ex.printStackTrace();
-							}
-						}else {
-							updateThread.notify();
-						}
+						gameState = 4;
+					else if(gameState == 4)
+						gameState = 3;
 				}
 			}
 		});
@@ -128,5 +127,15 @@ public class AirHockey implements Runnable{
 	}
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
+	}
+	public void setShowingCursor(boolean showingCursor) {
+		this.showingCursor = showingCursor;
+		if(!showingCursor) {
+			BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+			frame.getContentPane().setCursor(blankCursor);
+		}else {
+			frame.setCursor(Cursor.getDefaultCursor());
+		}
 	}
 }

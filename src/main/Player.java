@@ -20,9 +20,18 @@ public class Player {
 	}
 	
 	public void update(int mx, int my) {
-		this.x = mx - 27; // - 27 ??????
+		
+		if((mx - radius) - 5 <= 15)
+			this.x = 15;
+		else if(mx + radius >= game.getWidth() - 30)
+			this.x = (game.getWidth() - 30) - radius * 2;
+		else
+			this.x = mx - 27; // - 27 ??????
+		
 		if(my < (game.getHeight() / 2) + 25) //Why
-			this.y = (game.getHeight() / 2) - 18; //Why x2????
+			this.y = (game.getHeight() / 2) - 18; //again, why????
+		else if(my >= game.getHeight() - 52)
+			this.y = (game.getHeight() - 52) - radius * 2;
 		else
 			this.y = my - 45; // - 45 ??????
 	}
