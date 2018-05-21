@@ -48,18 +48,18 @@ public class AirHockey implements Runnable{
 		
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				mx = e.getX();
-				my = e.getY();
-				
-				if(gameState == 0)
-					for(MenuButton b : panel.getButtons())
-						if(b.getBounds().contains(mx - 5, my - 20)) { 
-							b.setHovered(true);
-							frame.setCursor(Cursor.HAND_CURSOR);
-						}else {
-							b.setHovered(false);
-							frame.setCursor(Cursor.DEFAULT_CURSOR);
-						}
+					mx = e.getX();
+					my = e.getY();
+					
+					if(gameState == 0)
+						for(MenuButton b : panel.getButtons())
+							if(b.getBounds().contains(mx - 5, my - 20)) { 
+								b.setHovered(true);
+								frame.setCursor(Cursor.HAND_CURSOR);
+							}else {
+								b.setHovered(false);
+								frame.setCursor(Cursor.DEFAULT_CURSOR);
+							}
 			}
 		});
 		
@@ -73,7 +73,7 @@ public class AirHockey implements Runnable{
 		});
 		
 		frame.addKeyListener(new KeyAdapter() {
-			public synchronized void keyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				int key = e.getKeyCode();
 				if(key == KeyEvent.VK_ESCAPE) {
 					if(gameState == 3)
