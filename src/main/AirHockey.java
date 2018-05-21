@@ -49,6 +49,7 @@ public class AirHockey implements Runnable{
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 					mx = e.getX();
+					
 					my = e.getY();
 					
 					if(gameState == 0)
@@ -91,7 +92,7 @@ public class AirHockey implements Runnable{
 		frame.setVisible(true);
 	}
 	
-	public synchronized void run() {
+	public void run() {
 		while(running) {
 			panel.update();
 			try {
