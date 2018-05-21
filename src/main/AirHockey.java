@@ -17,6 +17,7 @@ public class AirHockey implements Runnable{
 	private JFrame frame;
 	private GamePanel panel;
 	private Player player;
+	private Physics p;
 	
 	//System Variables
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game, 4 = paused
@@ -29,7 +30,6 @@ public class AirHockey implements Runnable{
 	//Thread
 	private Thread updateThread;
 	private boolean running = false;
-	private boolean paused = false;
 	
 	//Cursor
 	Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
@@ -38,6 +38,7 @@ public class AirHockey implements Runnable{
 		frame = new JFrame("Air Hockey");
 		player = new Player(this, 200, 500, 40);
 		panel = new GamePanel(this, WIDTH, HEIGHT);
+		p = new Physics();
 		
 		updateThread = new Thread(this);
 		
@@ -128,6 +129,9 @@ public class AirHockey implements Runnable{
 	}
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
+	}
+	public Physics getPhysics() {
+		return p;
 	}
 	public void setShowingCursor(boolean showingCursor) {
 		this.showingCursor = showingCursor;

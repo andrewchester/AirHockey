@@ -21,6 +21,8 @@ public class GamePanel extends JPanel {
 	private BufferedImage background;
 	private Image background_resized;
 	
+	private Puck puck;
+	
 	private ArrayList<MenuButton> menu_buttons;
 
 	GamePanel(AirHockey game, int w, int h){
@@ -32,6 +34,8 @@ public class GamePanel extends JPanel {
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
 		
+		puck = new Puck(game.getPhysics(), game.getWidth() / 2, game.getHeight() / 2);
+		
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
 			background_resized = background.getScaledInstance(480, 720, Image.SCALE_DEFAULT);
@@ -42,6 +46,7 @@ public class GamePanel extends JPanel {
 	
 	public void update() {
 		if(game.getGameState() == 3) {
+			puck.update();
 			game.getPlayer().update(game.getMX(), game.getMY());
 		}
 		
@@ -62,6 +67,7 @@ public class GamePanel extends JPanel {
 			g.drawLine(game.getWidth() - 30, 0, game.getWidth() - 30, game.getHeight()); //Right
 			g.drawLine(0, game.getHeight() - 52, game.getWidth(), game.getHeight() - 52); //Bottom
 			
+			puck.render(g);
 			game.getPlayer().render(g);
 		}else if(game.getGameState() == 0) {                //Main menu 
 			
