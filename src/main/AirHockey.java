@@ -125,6 +125,9 @@ public class AirHockey implements Runnable{
 	public int getHeight() {
 		return HEIGHT;
 	}
+	public GamePanel getPanel() {
+		return panel;
+	}
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}

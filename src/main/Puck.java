@@ -10,19 +10,31 @@ public class Puck {
 	private int radius;
 	private float mass;
 	
-	Puck( int x, int y){
+	private AirHockey game;
+	
+	Puck(AirHockey game, int x, int y){
 		this.x = x;
 		this.y = y;
 		
-		this.velx = 0;
-		this.vely = 0;
+		this.velx = 10;
+		this.vely = 10;
 		
 		this.radius = 10;
-		
 		this.mass = 1;
+		
+		this.game = game;
 	}
 	
 	public void update() {
+		if(Physics.collides(game.getPlayer(), this)) {
+			System.out.println("Collided with player");
+			this.velx = Physics.getVelX(mass, velx);
+			this.vely = Physics.getVelY(mass, velx);
+		}
+		
+		velx = Physics.adjust(velx);
+		vely = Physics.adjust(vely);
+		
 		this.x += velx;
 		this.y += vely;
 	}
@@ -36,5 +48,11 @@ public class Puck {
 	
 	public int getRadius() {
 		return (int)radius;
+	}
+	public float getX() {
+		return x + radius;
+	}
+	public float getY() {
+		return y + radius;
 	}
 }

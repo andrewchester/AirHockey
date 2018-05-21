@@ -34,7 +34,7 @@ public class GamePanel extends JPanel {
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
 		
-		puck = new Puck((game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
+		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
 		
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
@@ -106,5 +106,8 @@ public class GamePanel extends JPanel {
 	
 	public ArrayList<MenuButton> getButtons(){
 		return menu_buttons;
+	}
+	public Puck getPuck() {
+		return puck;
 	}
 }

@@ -25,14 +25,14 @@ public class Player {
 		else if(mx + radius >= game.getWidth() - 30)
 			this.x = (game.getWidth() - 30) - radius * 2;
 		else
-			this.x = mx - 27; // - 27 ??????
+			this.x = mx - 27; 
 		
-		if(my < (game.getHeight() / 2) + 25) //Why
-			this.y = (game.getHeight() / 2) - 18; //again, why????
+		if(my < (game.getHeight() / 2) + 25) 
+			this.y = (game.getHeight() / 2) - 18; 
 		else if(my >= game.getHeight() - 52)
 			this.y = (game.getHeight() - 52) - radius * 2;
 		else
-			this.y = my - 45; // - 45 ??????
+			this.y = my - 45; 
 	}
 	
 	public void render(Graphics g) {
@@ -50,5 +50,15 @@ public class Player {
 		g2.fill(s2);
 		
 		g.drawRect(x, y, radius * 2, radius * 2);
+	}
+	
+	public int getRadius() {
+		return radius;
+	}
+	public int getX() {
+		return x + (radius / 2);
+	}
+	public int getY() {
+		return y + (radius / 2);
 	}
 }
