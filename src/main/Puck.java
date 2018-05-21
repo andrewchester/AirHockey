@@ -28,7 +28,8 @@ public class Puck {
 	}
 	
 	public void update() {
-		
+		this.x += velx;
+		this.y += vely;
 	}
 	
 	public void render(Graphics g) {
