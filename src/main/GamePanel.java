@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 
 //Image Source(background): https://www.codeproject.com/KB/mobile/432054/bariers.jpg
@@ -31,6 +30,7 @@ public class GamePanel extends JPanel {
 		
 		menu_buttons = new ArrayList<MenuButton>();
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
 		
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
