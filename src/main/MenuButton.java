@@ -38,10 +38,11 @@ public class MenuButton {
 		g.fillRect(x, y, w, h);
 		g.setColor(Color.GRAY);
 		g.drawRect(x, y, w, h);
+		int messageWidth = g.getFontMetrics().stringWidth(message);
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Calibri", Font.PLAIN, 20));
-		g.drawString(message, x + (w / 4) + 4, y + (h / 2) + 4);
+		g.drawString(message, x + ((w - messageWidth) / 2), y + (h / 2) + 4);
 	}
 	public Rectangle getBounds() {
 		return bounds;
