@@ -20,8 +20,8 @@ public class AirHockey implements Runnable{
 	
 	//System Variables
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game, 4 = paused
-	private final int WIDTH = 496;
-	private final int HEIGHT = 759;
+	private final int WIDTH = 486;
+	private final int HEIGHT = 750;
 	private final int FPS = 60;
 	private int mx = 0, my = 0;
 	private boolean showingCursor = true;

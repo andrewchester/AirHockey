@@ -64,8 +64,9 @@ public class GamePanel extends JPanel {
 			//Drawing boundaries for the player, just for testing will be removed later 
 			g.drawLine(0, (game.getHeight() / 2) - 18, game.getWidth(), (game.getHeight() / 2) - 18); //??????? Middle line
 			g.drawLine(15, 0, 15, game.getHeight()); //Left
-			g.drawLine(game.getWidth() - 30, 0, game.getWidth() - 30, game.getHeight()); //Right
-			g.drawLine(0, game.getHeight() - 52, game.getWidth(), game.getHeight() - 52); //Bottom
+			g.drawLine(game.getWidth() - 20, 0, game.getWidth() - 20, game.getHeight()); //Right
+			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
+			g.drawLine(0,  15, game.getWidth(), 15); //Top
 			
 			puck.render(g);
 			game.getPlayer().render(g);

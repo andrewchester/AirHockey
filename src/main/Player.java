@@ -22,15 +22,15 @@ public class Player {
 		
 		if((mx - radius) - 5 <= 15)
 			this.x = 15;
-		else if(mx + radius >= game.getWidth() - 30)
-			this.x = (game.getWidth() - 30) - radius * 2;
+		else if(mx + radius >= game.getWidth() - 29)
+			this.x = (game.getWidth() - 20) - radius * 2;
 		else
 			this.x = mx - 27; 
 		
 		if(my < (game.getHeight() / 2) + 25) 
 			this.y = (game.getHeight() / 2) - 18; 
-		else if(my >= game.getHeight() - 52)
-			this.y = (game.getHeight() - 52) - radius * 2;
+		else if(my >= game.getHeight() - 44)
+			this.y = (game.getHeight() - 44) - radius * 2;
 		else
 			this.y = my - 45; 
 	}

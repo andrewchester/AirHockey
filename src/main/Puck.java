@@ -32,6 +32,8 @@ public class Puck {
 			this.vely = Physics.getVelY(mass, velx);
 		}
 		
+		Physics.collidesWall(this);
+		
 		velx = Physics.adjust(velx);
 		vely = Physics.adjust(vely);
 		
@@ -54,5 +56,20 @@ public class Puck {
 	}
 	public float getY() {
 		return y + radius;
+	}
+	public float getVelX() {
+		return velx;
+	}
+	public float getVelY() {
+		return vely;
+	}
+	public void setVelX(float velX) {
+		this.velx = velX;
+	}
+	public void setVelY(float velY) {
+		this.vely = velY;
+	}
+	public float getMass() {
+		return mass;
 	}
 }
