@@ -26,12 +26,7 @@ public class Puck {
 	}
 	
 	public void update() {
-		if(Physics.collides(game.getPlayer(), this)) {
-			System.out.println("Collided with player");
-			this.velx = Physics.getVelX(mass, velx);
-			this.vely = Physics.getVelY(mass, velx);
-		}
-		
+		Physics.collides(game.getPlayer(), this);
 		Physics.collidesWall(this);
 		
 		velx = Physics.adjust(velx);
@@ -71,5 +66,11 @@ public class Puck {
 	}
 	public float getMass() {
 		return mass;
+	}
+	public void setX(float x) {
+		this.x = x;
+	}
+	public void setY(float y) {
+		this.y = y;
 	}
 }
