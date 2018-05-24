@@ -11,6 +11,8 @@ public class Player {
 	private int velx, vely;
 	private AirHockey game;
 	
+	private double mass = 1.5;
+	
 	Player(AirHockey game, int x, int y, int radius){
 		this.radius = radius / 2;
 		
@@ -62,15 +64,18 @@ public class Player {
 		return radius;
 	}
 	public int getX() {
-		return x + (radius / 2);
+		return x + radius;
 	}
 	public int getY() {
-		return y + (radius / 2);
+		return y + radius;
 	}
 	public int getVelX() {
 		return Math.abs(velx);
 	}
 	public int getVelY() {
 		return Math.abs(vely);
+	}
+	public double getMass() {
+		return mass;
 	}
 }

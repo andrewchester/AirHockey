@@ -4,8 +4,9 @@ import java.awt.Point;
 
 public class Physics {
 	
-	public static final double FRICTION = 0.01;
+	public static final double FRICTION = 0.0075;
 	public static final double LOSS = .75;
+	public static final int SPEED_LIMIT = 10;
 	
 	////////// SAMPLE METHODS, these need to be updated to use mass /////////////
 	public static float getVelX(float mass, float current_vel) {
@@ -29,46 +30,72 @@ public class Physics {
 	}
 	
 	public static void collides(Player p, Puck puck) { //Uses the distance formula
-		Point start = new Point(p.getX(), p.getY());
-		Point end = new Point((int)puck.getX(), (int)puck.getY());
 		
-		double d = Math.hypot(end.getX() - start.getX(), end.getY() - start.getY());
-		
-		if(d <= ((p.getRadius() + puck.getRadius()))) {
-			int x_dif = (int) (p.getX() - puck.getY());
-			int y_dif = (int) (p.getY() - puck.getY());
-			
-			int total_radius = p.getRadius() + puck.getRadius();
-			
-			if(x_dif > 0 && y_dif > 0) {
-				puck.setX((float)p.getX() - total_radius);
-				puck.setY((float)p.getY() - total_radius);
-				puck.setVelX(-1 * (puck.getVelX() + (int)(p.getVelX() * LOSS)));
-				puck.setVelY(-1 * (puck.getVelY() + (int)(p.getVelY() * LOSS)));
-			}else if(x_dif < 0 && y_dif > 0) {
-				puck.setX((float)p.getX() + total_radius);
-				puck.setY((float)p.getY() - total_radius);
-				puck.setVelX(puck.getVelX() + (int)(p.getVelX() * LOSS));
-				puck.setVelY(puck.getVelY() + (int)(p.getVelY() * LOSS));
-			}else if(x_dif > 0 && y_dif < 0) {
-				puck.setX((float)p.getX() - total_radius);
-				puck.setY((float)p.getY() + total_radius);
-				puck.setVelX(puck.getVelX() + (int)(p.getVelX() * LOSS));
-				puck.setVelY(puck.getVelY() + (int)(p.getVelY() * LOSS));
-			}else if(x_dif < 0 && y_dif < 0){
-				puck.setX((float)p.getX() + total_radius);
-				puck.setY((float)p.getY() + total_radius);
-				puck.setVelX(puck.getVelX() + (int)(p.getVelX() * LOSS));
-				puck.setVelY(puck.getVelY() + (int)(p.getVelY() * LOSS));
-			}
-		}
+		float x_dif = p.getX() - puck.getX();
+	    float y_dif = p.getY() - puck.getY();
+
+	    float total_radius = p.getRadius() + puck.getRadius();
+	    float sqrRadius = total_radius * total_radius;
+
+	    float distSqr = (x_dif * x_dif) + (y_dif * y_dif);
+
+	    if (distSqr <= sqrRadius)
+	    {
+	        System.out.println("Collided");
+	        
+	        float new_velx = 0, new_vely = 0;
+	     
+	        //Really awful if statements don't look pls
+	        if(puck.getY() < p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Top
+	        	if(p.getVelY() < 0)
+		        	puck.setY(p.getY() - (p.getRadius() + puck.getRadius() - p.getVelY() + 1));
+		        else
+			        puck.setY(p.getY() - (p.getRadius() + puck.getRadius() + 1));
+		        
+	        	
+	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
+	        	new_velx = p.getVelX();
+	        }else if(puck.getY() > p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Bottom
+	        	if(p.getVelY() > 0)
+		        	puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + p.getVelY() + 1));
+		        else
+			        puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + 1));
+	        	
+	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
+	        	new_velx = p.getVelX();
+	        }else if(puck.getX() < p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Left
+	        	if(p.getVelX() < 0)
+	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() - p.getVelX() + 1));
+	        	else
+	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() + 1));
+	        	
+	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
+	        	new_vely = p.getVelY();
+	        }else if(puck.getX() > p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Right
+	        	if(p.getVelX() > 0)
+	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + p.getVelX() + 1));
+	        	else
+	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + 1));
+	        	
+	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
+	        	new_vely = p.getVelY();
+	        }
+	        
+	        if(Math.abs(new_velx) > SPEED_LIMIT)
+	        	new_velx = new_velx / (new_velx / SPEED_LIMIT);
+	        if(Math.abs(new_vely) > 10)
+	        	new_vely = new_vely / (new_vely / SPEED_LIMIT);
+	        	
+	        puck.setVelX(new_velx);
+	        puck.setVelY(new_vely);
+	    }
 	}
 	public static void collidesWall(Puck p) { //For walls
 		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) {
-			p.setVelX(getVelX(p.getMass(), p.getVelX()));
+			p.setVelX(getVelX((float)p.getMass(), p.getVelX()));
 		}
 		if((int)p.getY()-p.getRadius() < 15 || (int)p.getY()+p.getRadius() > 750 - 44) {
-			p.setVelY(getVelY(p.getMass(), p.getVelY()));
+			p.setVelY(getVelY((float)p.getMass(), p.getVelY()));
 		}
 
 	}

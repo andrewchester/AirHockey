@@ -68,8 +68,11 @@ public class GamePanel extends JPanel {
 			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
 			g.drawLine(0,  15, game.getWidth(), 15); //Top
 			
-			puck.render(g);
 			game.getPlayer().render(g);
+			puck.render(g);
+			
+			g.setColor(Color.RED);
+			g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
 		}else if(game.getGameState() == 0) {                //Main menu 
 			
 			for(MenuButton b : menu_buttons)
