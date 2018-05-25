@@ -6,7 +6,7 @@ public class Physics {
 	
 	public static final double FRICTION = 0.0075;
 	public static final double LOSS = .75;
-	public static final int SPEED_LIMIT = 10;
+	public static final int SPEED_LIMIT = 5;
 	
 	////////// SAMPLE METHODS, these need to be updated to use mass /////////////
 	public static float getVelX(float mass, float current_vel) {
@@ -44,7 +44,11 @@ public class Physics {
 	        System.out.println("Collided");
 	        
 	        float new_velx = 0, new_vely = 0;
-	     
+	        
+	        new_velx = (float) ((p.getVelX() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelX())) / (p.getMass() + puck.getMass()));
+	        new_vely = (float) ((p.getVelY() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelY())) / (p.getMass() + puck.getMass()));
+	        
+	        /*
 	        //Really awful if statements don't look pls
 	        if(puck.getY() < p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Top
 	        	if(p.getVelY() < 0)
@@ -80,7 +84,7 @@ public class Physics {
 	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
 	        	new_vely = p.getVelY();
 	        }
-	        
+	        */
 	        if(Math.abs(new_velx) > SPEED_LIMIT)
 	        	new_velx = new_velx / (new_velx / SPEED_LIMIT);
 	        if(Math.abs(new_vely) > 10)

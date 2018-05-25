@@ -8,10 +8,12 @@ import java.awt.geom.Ellipse2D;
 
 public class Player {
 	private int x, y, radius;
-	private int velx, vely;
+	private float velx, vely;
 	private AirHockey game;
 	
 	private double mass = 1.5;
+
+	private final float SL = 5;
 	
 	Player(AirHockey game, int x, int y, int radius){
 		this.radius = radius / 2;
@@ -24,6 +26,18 @@ public class Player {
 	public void update(int mx, int my) {
 		
 		int startx = x, starty = y;
+		
+		float x_dif = Math.abs(x - mx);
+		float y_dif = Math.abs(y - my);
+		
+		if(x_dif > SL) {
+			while(x_dif > SL)
+				x_dif -= 1;
+		}
+		if(y_dif > SL) {
+			while(y_dif > SL)
+				y_dif -= 1;
+		}
 		
 		if((mx - radius) - 5 <= 15)
 			this.x = 15;
@@ -39,8 +53,9 @@ public class Player {
 		else
 			this.y = my - 45; 
 		
-		velx = x - startx;
-		vely = y - starty;
+		//made it a float for the calculation, may take out 0.75 later
+		velx = (float) ((x - startx) * 0.75);
+		vely = (float) ((y - starty) * 0.75);
 	}
 	
 	public void render(Graphics g) {
@@ -69,10 +84,11 @@ public class Player {
 	public int getY() {
 		return y + radius;
 	}
-	public int getVelX() {
+	//issa float
+	public float getVelX() {
 		return Math.abs(velx);
 	}
-	public int getVelY() {
+	public float getVelY() {
 		return Math.abs(vely);
 	}
 	public double getMass() {

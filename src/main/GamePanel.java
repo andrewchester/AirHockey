@@ -24,8 +24,11 @@ public class GamePanel extends JPanel {
 	private Puck puck;
 	
 	private ArrayList<MenuButton> menu_buttons;
+	
+	Thread collisionThread;
+	private boolean running = false;
 
-	GamePanel(AirHockey game, int w, int h){
+	GamePanel(final AirHockey game, int w, int h){
 		super();
 		
 		this.game = game;
