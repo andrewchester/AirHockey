@@ -19,6 +19,11 @@ public class Physics {
 	}
 	//////////////////////////
 	
+	public static float totalVel(float velx, float vely) {
+		float velocity = (float) Math.sqrt((velx * velx) + (vely * vely));
+		return velocity;
+	}
+	
 	public static float adjust(float vel) { //Adjusting the velocity towards zero based on friction
 		float new_vel = Math.abs(vel);
 		new_vel -= FRICTION;
