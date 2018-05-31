@@ -4,7 +4,7 @@ package main;
 
 public class Physics {
 	
-	public static final double FRICTION = 0.0075;
+	public static final double FRICTION = 0.005;
 	public static final double LOSS = .75;
 	public static final int SPEED_LIMIT = 5;
 	
@@ -180,13 +180,46 @@ public class Physics {
 	    }
 	}
 	public static void collidesWall(Puck p) { //For walls
-		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) {
-			p.setVelX(getVelX((float)p.getMass(), p.getVelX()));
+		
+		float angle = p.getDir();
+		float new_angle = p.getDir();
+		
+		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) { //Left and right walls
+			if(angle > 0 && angle < 90) { //Hitting right wall going up
+				new_angle = 270 + (90 - angle);
+			}else if(angle > 90 && angle < 180) { //Hitting right wall going down
+				new_angle = 270 - (angle - 90);
+			}else if (angle == 90) {
+				new_angle += 180;
+			}
+			
+			if(angle > 270 && angle < 360) { //Hitting left wall going up
+				new_angle = 90 - (angle - 270);
+			}else if(angle > 180 && angle < 270) { //Hitting left wall going down
+				new_angle = 90 + (270 - angle);
+			}else if(angle == 270) {
+				new_angle -= 180;
+			}
 		}
-		if((int)p.getY()-p.getRadius() < 15 || (int)p.getY()+p.getRadius() > 750 - 44) {
-			p.setVelY(getVelY((float)p.getMass(), p.getVelY()));
+		if((int)p.getY()-p.getRadius() < 15 || (int)p.getY()+p.getRadius() > 750 - 44) { //Top and botttom walls
+			if(angle > 0 && angle < 90) { //Hitting top wall going right
+				new_angle = 90 + (90 - angle);
+			}else if(angle > 270 && angle < 360) { //Hitting top wall going left
+				new_angle = 270 - (angle - 270);
+			}else if (angle == 0) {
+				new_angle += 180;
+			}
+			
+			if(angle > 90 && angle < 180) { //Hitting bottom wall going right
+				new_angle = 90 - (angle - 90);
+			}else if(angle > 180 && angle < 270) { //Hitting bottom wall going left
+				new_angle = 270 + (270 - angle);
+			}else if (angle == 180) {
+				new_angle -= 180;
+			}
 		}
-
+		if(new_angle != angle)
+			p.setDir(new_angle);
 	}
 	/*
 	 * public static boolean collides(Ai a, Puck p){

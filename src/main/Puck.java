@@ -18,7 +18,7 @@ public class Puck {
 		this.y = y;
 		
 		this.vel = 5;
-		this.dir = 10;
+		this.dir = 80;
 		
 		this.velx = Physics.calcVels(vel, dir)[0];
 		this.vely = Physics.calcVels(vel, dir)[1];
@@ -89,6 +89,7 @@ public class Puck {
 		this.vel = vel;
 	}
 	public void setDir(float dir) {
+		System.out.println("changing dir to " + dir);
 		this.dir = dir;
 	}
 }
