@@ -8,6 +8,86 @@ public class Physics {
 	public static final double LOSS = .75;
 	public static final int SPEED_LIMIT = 5;
 	
+	////// Method for calculating velx and vely from given velocity and direction ////////
+	public static float[] calcVels(float vel, float dir) {
+		float[] vels = new float[2]; // Array for velx and vely values
+		
+		//Make sure vel and direction will always be positive
+		vel = Math.abs(vel);	
+		dir = Math.abs(dir);
+		
+		//Make sure the direction is within 0 - 360
+		while(dir > 360)
+			dir -= 360;
+		
+		//The hypotenuse of the triangle is the vel, and we use the angle to calculate the sides, which are velx and vely 
+		//angle is the reference angle of the triangle created by the hypotenuse and the x axis as the adjacent side and with the opposite side being the vely
+		float angle = dir;
+		
+		float velx = 0, vely = 0;
+		
+		//If it's going straight down one of the axis, set the values manually because we know what they'll be, we can't use trig because they're straight lines
+		if(angle == 0 || angle == 90 || angle == 180 || angle == 270) {
+			if(angle == 0) {
+				velx = 0;
+				vely = -1 * vel;
+			}else if(angle == 90) {
+				velx = vel;
+				vely = 0;
+			}else if(angle == 180) {
+				velx = 0;
+				vely = vel;
+			}else if(angle == 270) {
+				velx = -1 * vel;
+				vely = 0;
+			}
+			
+			vels[0] = velx;
+			vels[1] = vely;
+			
+			return vels;
+		}
+		
+		//Make sure the angle is less then 90
+		if(dir > 0 && dir < 90) {
+			angle = 90 - dir;
+		}else if(dir > 90 && dir < 180) {
+			angle -= 90;
+		}else if(dir > 180 && dir < 270) {
+			angle = 270 - dir;
+		}else if(dir > 270 && dir < 360) {
+			angle -= 270;
+		}
+		
+		//Using trig to calculate the side lengths of the triangle formed by the direction and vel
+		velx = (float) (Math.cos(angle) * vel);
+		vely = (float) (Math.sin(angle) * vel);
+		
+		//Depending on which quadrant the direction is in, make the velx or vely positive or negative 
+		if(dir > 0 && dir < 90) { //Top Right: Positive x, Negative y
+			velx = Math.abs(velx);
+			if(vely > 0)
+				vely *= -1;
+		}else if(dir > 90 && dir < 180) { //Bottom Right: Positive x, Positive y
+			velx = Math.abs(velx);
+			vely = Math.abs(vely);
+		}else if(dir > 180 && dir < 270) { //Bottom Left: Negative x, Positive y
+			if(velx > 0)
+				velx *= -1;
+			vely = Math.abs(vely);
+		}else if(dir > 270 && dir < 360) { //Top Left: Negative x, Negative y
+			if(velx > 0)
+				velx *= -1;
+			if(vely > 0)
+				vely *= -1;
+		}
+		
+		vels[0] = velx;
+		vels[1] = vely;
+		
+		return vels;
+	}
+	
 	////////// SAMPLE METHODS, these need to be updated to use mass /////////////
 	public static float getVelX(float mass, float current_vel) {
 		float new_vel = current_vel * -1;

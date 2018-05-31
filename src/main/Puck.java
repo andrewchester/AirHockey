@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 public class Puck {
 	private float x, y, velx, vely;
 	private int radius;
+	private float vel, dir;
 	private double mass;
 	
 	private AirHockey game;
@@ -16,8 +17,11 @@ public class Puck {
 		this.x = x;
 		this.y = y;
 		
-		this.velx = -10;
-		this.vely = -10;
+		this.vel = 5;
+		this.dir = 10;
+		
+		this.velx = Physics.calcVels(vel, dir)[0];
+		this.vely = Physics.calcVels(vel, dir)[1];
 		
 		this.radius = 10;
 		this.mass = 1.25;
@@ -29,8 +33,10 @@ public class Puck {
 		Physics.collides(game.getPlayer(), this);
 		Physics.collidesWall(this);
 		
-		velx = Physics.adjust(velx);
-		vely = Physics.adjust(vely);
+		this.velx = Physics.calcVels(vel, dir)[0];
+		this.vely = Physics.calcVels(vel, dir)[1];
+		
+		vel = Physics.adjust(vel);
 		
 		this.x += velx;
 		this.y += vely;
@@ -72,5 +78,17 @@ public class Puck {
 	}
 	public void setY(float y) {
 		this.y = y - radius;
+	}
+	public float getVel() {
+		return vel;
+	}
+	public float getDir() {
+		return dir;
+	}
+	public void setVel(float vel) {
+		this.vel = vel;
+	}
+	public void setDir(float dir) {
+		this.dir = dir;
 	}
 }

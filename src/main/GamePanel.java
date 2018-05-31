@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
 	public void update() {
 		if(game.getGameState() == 3) {
 			puck.update();
-			game.getPlayer().update(game.getMX(), game.getMY());
+			//game.getPlayer().update(game.getMX(), game.getMY());
 		}
 		
 		repaint();
@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
 			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
 			g.drawLine(0,  15, game.getWidth(), 15); //Top
 			
-			game.getPlayer().render(g);
+			//game.getPlayer().render(g);
 			puck.render(g);
 			
 			g.setColor(Color.RED);
