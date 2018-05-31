@@ -60,8 +60,8 @@ public class Physics {
 		}
 		
 		//Using trig to calculate the side lengths of the triangle formed by the direction and vel
-		velx = (float) (Math.cos(angle) * vel);
-		vely = (float) (Math.sin(angle) * vel);
+		velx = (float) (Math.cos(Math.toRadians(angle)) * vel);
+		vely = (float) (Math.sin(Math.toRadians(angle)) * vel);
 		
 		//Depending on which quadrant the direction is in, make the velx or vely positive or negative 
 		if(dir > 0 && dir < 90) { //Top Right: Positive x, Negative y
@@ -81,7 +81,7 @@ public class Physics {
 			if(vely > 0)
 				vely *= -1;
 		}
-		
+
 		vels[0] = velx;
 		vels[1] = vely;
 		

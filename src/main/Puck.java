@@ -17,8 +17,8 @@ public class Puck {
 		this.x = x;
 		this.y = y;
 		
-		this.vel = 5;
-		this.dir = 80;
+		this.vel = 10;
+		this.dir = 175;
 		
 		this.velx = Physics.calcVels(vel, dir)[0];
 		this.vely = Physics.calcVels(vel, dir)[1];
