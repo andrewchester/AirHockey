@@ -47,7 +47,7 @@ public class Player {
 			this.x = mx - 27; 
 		
 		if(my < (game.getHeight() / 2) + 25) 
-			this.y = (game.getHeight() / 2) - 18; 
+			this.y = (game.getHeight() / 2) - 14; 
 		else if(my >= game.getHeight() - 44)
 			this.y = (game.getHeight() - 44) - radius * 2;
 		else

@@ -74,13 +74,7 @@ public class AirHockey implements Runnable{
 		
 		frame.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				int key = e.getKeyCode();
-				if(key == KeyEvent.VK_ESCAPE) {
-					if(gameState == 3)
-						gameState = 4;
-					else if(gameState == 4)
-						gameState = 3;
-				}
+				panel.keyPressed(e);
 			}
 		});
 		

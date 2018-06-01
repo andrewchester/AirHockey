@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class GamePanel extends JPanel {
 	public void update() {
 		if(game.getGameState() == 3) {
 			puck.update();
-			//game.getPlayer().update(game.getMX(), game.getMY());
+			game.getPlayer().update(game.getMX(), game.getMY());
 		}
 		
 		repaint();
@@ -65,17 +66,20 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.RED);
 			
 			//Drawing boundaries for the player, just for testing will be removed later 
-			g.drawLine(0, (game.getHeight() / 2) - 18, game.getWidth(), (game.getHeight() / 2) - 18); //??????? Middle line
+			g.drawLine(0, (game.getHeight() / 2) - 14, game.getWidth(), (game.getHeight() / 2) - 18); //??????? Middle line
 			g.drawLine(15, 0, 15, game.getHeight()); //Left
 			g.drawLine(game.getWidth() - 20, 0, game.getWidth() - 20, game.getHeight()); //Right
 			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
 			g.drawLine(0,  15, game.getWidth(), 15); //Top
+			g.drawRect((game.getWidth()-200)/2, game.getHeight()-64, 200, 20); //bottom goal
+			g.drawRect((game.getWidth()-200)/2, 15, 200, 20); //top goal
 			
-			//game.getPlayer().render(g);
+			game.getPlayer().render(g);
 			puck.render(g);
 			
 			g.setColor(Color.RED);
 			g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
+			
 		}else if(game.getGameState() == 0) {                //Main menu 
 			
 			for(MenuButton b : menu_buttons)
@@ -102,12 +106,29 @@ public class GamePanel extends JPanel {
 			
 			g.setColor(Color.WHITE);
 			g.fillRect(150, 150, 200, 200);
+			
+			g.setColor(Color.BLACK);
+			g.drawString("Press ESC to continue playing", 165, 180);
 		}
 	}
 	public void clicked(MenuButton b) {
 		if(b.getMessage() == "Start") {
 			game.setGameState(3);
 			game.setShowingCursor(false);
+		}
+	}
+	
+	//pause menu
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_ESCAPE) {
+			if(game.getGameState() == 3) {
+				game.setGameState(4); 
+				game.setShowingCursor(true);
+			}else if(game.getGameState() == 4) {
+				game.setGameState(3);
+				game.setShowingCursor(false);
+			}
 		}
 	}
 	
