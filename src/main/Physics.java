@@ -6,7 +6,7 @@ public class Physics {
 	
 	public static final double FRICTION = 0.005;
 	public static final double LOSS = .75;
-	public static final int SPEED_LIMIT = 5;
+	public static final int SPEED_LIMIT = 4;
 	
 	////// Method for calculating velx and vely from given velocity and direction ////////
 	public static float[] calcVels(float vel, float dir) {
@@ -87,6 +87,28 @@ public class Physics {
 		
 		return vels;
 	}
+	public static float[] calcVel(float velx, float vely) {
+		float[] values = new float[2];
+		
+		float vel = 0, dir = 0;
+		
+		vel = (float) Math.sqrt((velx * velx) + (vely * vely));
+		
+		if(velx < 0 && vely < 0) {
+			dir = (float) (270 + Math.atan((Math.abs(vely) / Math.abs(velx))));
+		}else if(velx > 0 && vely < 0) {
+			dir = (float) (90 - Math.atan((Math.abs(vely) / Math.abs(velx))));
+		}else if(velx < 0 && vely > 0) {
+			dir = (float) (270 - Math.atan((Math.abs(vely) / Math.abs(velx))));
+		}else if(velx > 0 && vely > 0) {
+			dir = (float) (90 + Math.atan((Math.abs(vely) / Math.abs(velx))));
+		}
+		
+		values[0] = vel;
+		values[1] = dir;
+		
+		return values;
+	}
 	
 	////////// SAMPLE METHODS, these need to be updated to use mass /////////////
 	public static float getVelX(float mass, float current_vel) {
@@ -126,14 +148,12 @@ public class Physics {
 
 	    if (distSqr <= sqrRadius)
 	    {
-	        System.out.println("Collided");
-	        
 	        float new_velx = 0, new_vely = 0;
 	        
 	        new_velx = (float) ((p.getVelX() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelX())) / (p.getMass() + puck.getMass()));
 	        new_vely = (float) ((p.getVelY() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelY())) / (p.getMass() + puck.getMass()));
 	        
-	        /*
+	        
 	        //Really awful if statements don't look pls
 	        if(puck.getY() < p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Top
 	        	if(p.getVelY() < 0)
@@ -142,34 +162,50 @@ public class Physics {
 			        puck.setY(p.getY() - (p.getRadius() + puck.getRadius() + 1));
 		        
 	        	
+	        	puck.setDir((float) reflectAngle(puck.getDir()));
+	        	puck.setVel((float) calcAngle(p, puck)[0]);
+	        	/*
 	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
 	        	new_velx = p.getVelX();
+	        	*/
 	        }else if(puck.getY() > p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Bottom
 	        	if(p.getVelY() > 0)
 		        	puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + p.getVelY() + 1));
 		        else
 			        puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + 1));
 	        	
+	        	puck.setDir((float) reflectAngle(puck.getDir()));
+	        	puck.setVel((float) calcAngle(p, puck)[0]);
+	        	/*
 	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
 	        	new_velx = p.getVelX();
+	        	*/
 	        }else if(puck.getX() < p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Left
 	        	if(p.getVelX() < 0)
 	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() - p.getVelX() + 1));
 	        	else
 	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() + 1));
 	        	
+	        	puck.setDir((float) reflectAngle(puck.getDir()));
+	        	puck.setVel((float) calcAngle(p, puck)[0]);
+	        	/*
 	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
 	        	new_vely = p.getVelY();
+	        	*/
 	        }else if(puck.getX() > p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Right
 	        	if(p.getVelX() > 0)
 	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + p.getVelX() + 1));
 	        	else
 	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + 1));
 	        	
+	        	puck.setDir((float) reflectAngle(puck.getDir()));
+	        	puck.setVel((float) calcAngle(p, puck)[0]);
+	        	/*
 	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
 	        	new_vely = p.getVelY();
+	        	*/
 	        }
-	        */
+	        
 	        if(Math.abs(new_velx) > SPEED_LIMIT)
 	        	new_velx = new_velx / (new_velx / SPEED_LIMIT);
 	        if(Math.abs(new_vely) > 10)
@@ -220,6 +256,34 @@ public class Physics {
 		}
 		if(new_angle != angle)
 			p.setDir(new_angle);
+	}
+	public static float[] calcAngle(Player p, Puck puck) {
+		System.out.println(p.getVelX() + ", " + p.getVelY());
+		System.out.println(puck.getVelX() + ", " + puck.getVelY());
+		
+		float new_velx = p.getVelX() + puck.getVelX();
+		float new_vely = p.getVelY() + puck.getVelY();
+		
+		return Physics.calcVel(new_velx, new_vely);
+	}
+	public static float reflectAngle(float angle) {
+		float newA = 0;
+		if(angle > 0 && angle < 90) { //Hitting top wall going right
+			newA = 90 + (90 - angle);
+		}else if(angle > 270 && angle < 360) { //Hitting top wall going left
+			newA = 270 - (angle - 270);
+		}else if (angle == 0) {
+			newA = 180;
+		}
+		
+		if(angle > 90 && angle < 180) { //Hitting bottom wall going right
+			newA = 90 - (angle - 90);
+		}else if(angle > 180 && angle < 270) { //Hitting bottom wall going left
+			newA = 270 + (270 - angle);
+		}else if (angle == 180) {
+			newA = 180;
+		}
+		return newA;
 	}
 	/*
 	 * public static boolean collides(Ai a, Puck p){

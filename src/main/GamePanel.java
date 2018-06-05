@@ -23,6 +23,7 @@ public class GamePanel extends JPanel {
 	private Image background_resized;
 	
 	private Puck puck;
+	private Goal topGoal, bottomGoal;
 	
 	private ArrayList<MenuButton> menu_buttons;
 	
@@ -39,6 +40,8 @@ public class GamePanel extends JPanel {
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
 		
 		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
+		topGoal = new Goal((game.getWidth() / 2) - 100, 15);
+		bottomGoal = new Goal((game.getWidth() / 2) - 100, game.getHeight() - 52);
 		
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
@@ -71,11 +74,12 @@ public class GamePanel extends JPanel {
 			g.drawLine(game.getWidth() - 20, 0, game.getWidth() - 20, game.getHeight()); //Right
 			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
 			g.drawLine(0,  15, game.getWidth(), 15); //Top
-			g.drawRect((game.getWidth()-200)/2, game.getHeight()-64, 200, 20); //bottom goal
-			g.drawRect((game.getWidth()-200)/2, 15, 200, 20); //top goal
 			
 			game.getPlayer().render(g);
 			puck.render(g);
+			
+			topGoal.render((Graphics2D)g);
+			bottomGoal.render((Graphics2D)g);
 			
 			g.setColor(Color.RED);
 			g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
