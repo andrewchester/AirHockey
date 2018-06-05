@@ -89,7 +89,6 @@ public class Puck {
 		this.vel = vel;
 	}
 	public void setDir(float dir) {
-		System.out.println("changing dir to " + dir);
 		this.dir = dir;
 	}
 }
