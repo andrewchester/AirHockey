@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Font;
 
 //Image Source(background): https://www.codeproject.com/KB/mobile/432054/bariers.jpg
 
@@ -35,8 +36,11 @@ public class GamePanel extends JPanel {
 		this.game = game;
 		
 		menu_buttons = new ArrayList<MenuButton>();
-		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
-		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
+		//menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
+		//menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 225, 100, 50, "Easy", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 325, 100, 50, "Medium", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 425, 100, 50, "Hard", new Color(239, 69, 69)));
 		
 		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
 		
@@ -81,6 +85,9 @@ public class GamePanel extends JPanel {
 			g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
 			
 		}else if(game.getGameState() == 0) {                //Main menu 
+			g.setFont(new Font("Calibri", Font.BOLD, 50));
+			int stringWidth = g.getFontMetrics().stringWidth("Air Hockey");
+			g.drawString("Air Hockey", (game.getWidth()/2)-(stringWidth/2), 70);
 			
 			for(MenuButton b : menu_buttons)
 				b.render(g, g2);
@@ -112,7 +119,13 @@ public class GamePanel extends JPanel {
 		}
 	}
 	public void clicked(MenuButton b) {
-		if(b.getMessage() == "Start") {
+		if(b.getMessage() == "Easy") {
+			game.setGameState(3);
+			game.setShowingCursor(false);
+		}else if(b.getMessage() == "Medium") {
+			game.setGameState(3);
+			game.setShowingCursor(false);
+		}else if(b.getMessage() == "Hard") {
 			game.setGameState(3);
 			game.setShowingCursor(false);
 		}
