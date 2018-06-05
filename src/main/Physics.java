@@ -6,7 +6,7 @@ public class Physics {
 	
 	public static final double FRICTION = 0.005;
 	public static final double LOSS = .75;
-	public static final int SPEED_LIMIT = 4;
+	public static final int SPEED_LIMIT = 10;
 	
 	////// Method for calculating velx and vely from given velocity and direction ////////
 	public static float[] calcVels(float vel, float dir) {
@@ -160,59 +160,31 @@ public class Physics {
 		        	puck.setY(p.getY() - (p.getRadius() + puck.getRadius() - p.getVelY() + 1));
 		        else
 			        puck.setY(p.getY() - (p.getRadius() + puck.getRadius() + 1));
-		        
-	        	
-	        	puck.setDir((float) reflectAngle(puck.getDir()));
-	        	puck.setVel((float) calcAngle(p, puck)[0]);
-	        	/*
-	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
-	        	new_velx = p.getVelX();
-	        	*/
 	        }else if(puck.getY() > p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Bottom
 	        	if(p.getVelY() > 0)
 		        	puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + p.getVelY() + 1));
 		        else
 			        puck.setY(p.getY() + (p.getRadius() + puck.getRadius() + 1));
 	        	
-	        	puck.setDir((float) reflectAngle(puck.getDir()));
-	        	puck.setVel((float) calcAngle(p, puck)[0]);
-	        	/*
-	        	new_vely = -1 * (Math.abs(puck.getVelY()) + Math.abs(p.getVelY()));
-	        	new_velx = p.getVelX();
-	        	*/
 	        }else if(puck.getX() < p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Left
 	        	if(p.getVelX() < 0)
 	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() - p.getVelX() + 1));
 	        	else
 	        		puck.setX(p.getX() - (p.getRadius() + puck.getRadius() + 1));
-	        	
-	        	puck.setDir((float) reflectAngle(puck.getDir()));
-	        	puck.setVel((float) calcAngle(p, puck)[0]);
-	        	/*
-	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
-	        	new_vely = p.getVelY();
-	        	*/
 	        }else if(puck.getX() > p.getX() && puck.getY() > (p.getY() - p.getRadius()) && puck.getY() < (p.getY() + p.getRadius())) { //Right
 	        	if(p.getVelX() > 0)
 	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + p.getVelX() + 1));
 	        	else
 	        		puck.setX(p.getX() + (p.getRadius() + puck.getRadius() + 1));
-	        	
-	        	puck.setDir((float) reflectAngle(puck.getDir()));
-	        	puck.setVel((float) calcAngle(p, puck)[0]);
-	        	/*
-	        	new_velx = -1 * (Math.abs(puck.getVelX()) + Math.abs(p.getVelX()));
-	        	new_vely = p.getVelY();
-	        	*/
 	        }
 	        
-	        if(Math.abs(new_velx) > SPEED_LIMIT)
-	        	new_velx = new_velx / (new_velx / SPEED_LIMIT);
-	        if(Math.abs(new_vely) > 10)
-	        	new_vely = new_vely / (new_vely / SPEED_LIMIT);
+	        puck.setDir((float) reflectAngle(puck.getDir()));
+	        float new_vel = (float) calcVel(p.getVelX() + puck.getVelX(), p.getVelY() + puck.getVelY())[0];
+	        
+	        if(Math.abs(new_vel) > SPEED_LIMIT)
+	        	new_vel = new_vel / (new_vel / SPEED_LIMIT);
 	        	
-	        puck.setVelX(new_velx);
-	        puck.setVelY(new_vely);
+	        puck.setVel((float) new_vel);
 	    }
 	}
 	public static void collidesWall(Puck p) { //For walls
