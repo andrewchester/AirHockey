@@ -21,7 +21,8 @@ public class Goal {
 	public Rectangle getBounds() {
 		return bounds;
 	}
-	public boolean inGoal(int x, int y) {
-		return bounds.contains(new Point(x,y));
+	public boolean inGoal(float x, float y) {
+		System.out.println("Goal scored");
+		return bounds.contains(new Point((int)x,(int)y));
 	}
 }

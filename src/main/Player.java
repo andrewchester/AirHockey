@@ -72,7 +72,7 @@ public class Player {
 		s2.setFrame(x + (radius / 2), y + (radius / 2), radius, radius);
 		g2.fill(s2);
 		
-		g.drawRect(x, y, radius * 2, radius * 2);
+		//g.drawRect(x, y, radius * 2, radius * 2);
 	}
 	
 	public int getRadius() {

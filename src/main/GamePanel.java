@@ -25,6 +25,8 @@ public class GamePanel extends JPanel {
 	private Puck puck;
 	private Goal topGoal, bottomGoal;
 	
+	private byte playerScore = 0, enemyScore = 0;
+	
 	private ArrayList<MenuButton> menu_buttons;
 	
 	Thread collisionThread;
@@ -55,6 +57,14 @@ public class GamePanel extends JPanel {
 		if(game.getGameState() == 3) {
 			puck.update();
 			game.getPlayer().update(game.getMX(), game.getMY());
+			if(topGoal.inGoal(puck.getX(), puck.getY())) {
+				
+				
+				
+			}else if(bottomGoal.inGoal(puck.getX(), puck.getY())) {
+				
+				
+			}
 		}
 		
 		repaint();
@@ -69,20 +79,19 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.RED);
 			
 			//Drawing boundaries for the player, just for testing will be removed later 
+			/*
 			g.drawLine(0, (game.getHeight() / 2) - 14, game.getWidth(), (game.getHeight() / 2) - 18); //??????? Middle line
 			g.drawLine(15, 0, 15, game.getHeight()); //Left
 			g.drawLine(game.getWidth() - 20, 0, game.getWidth() - 20, game.getHeight()); //Right
 			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
 			g.drawLine(0,  15, game.getWidth(), 15); //Top
+			*/
 			
 			game.getPlayer().render(g);
 			puck.render(g);
-			
-			topGoal.render((Graphics2D)g);
-			bottomGoal.render((Graphics2D)g);
-			
-			g.setColor(Color.RED);
-			g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
+						
+			//g.setColor(Color.RED);
+			//g.drawLine(game.getPlayer().getX(), game.getPlayer().getY(), (int)puck.getX(), (int)puck.getY());
 			
 		}else if(game.getGameState() == 0) {                //Main menu 
 			
