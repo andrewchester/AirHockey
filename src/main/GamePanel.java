@@ -29,6 +29,7 @@ public class GamePanel extends JPanel {
 	private byte playerScore = 0, enemyScore = 0;
 	
 	private ArrayList<MenuButton> menu_buttons;
+	private ArrayList<MenuButton> pause_buttons;
 	
 	Thread collisionThread;
 	private boolean running = false;
@@ -44,6 +45,10 @@ public class GamePanel extends JPanel {
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 225, 100, 50, "Easy", new Color(239, 69, 69)));
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 325, 100, 50, "Medium", new Color(239, 69, 69)));
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 425, 100, 50, "Hard", new Color(239, 69, 69)));
+		
+		pause_buttons = new ArrayList<MenuButton>();
+		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 210, 100, 35, "Main Menu", new Color(239, 69, 69)));
+		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 260, 100, 35, "Restart", new Color(239, 69, 69)));
 		
 		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
 		topGoal = new Goal((game.getWidth() / 2) - 100, 15);
@@ -103,7 +108,7 @@ public class GamePanel extends JPanel {
 			g.drawString("Air Hockey", (game.getWidth()/2)-(stringWidth/2), 70);
 			
 			for(MenuButton b : menu_buttons)
-				b.render(g, g2);
+				b.render(g, g2, 20);
 			
 		}else if(game.getGameState() == 1) {                //Difficulty Menu
 			
@@ -114,10 +119,6 @@ public class GamePanel extends JPanel {
 			
 			
 		}else if(game.getGameState() == 4) {                //Pause menu
-			/*
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .005f));
-			g2.fillRect(0, 0, game.getWidth(), game.getHeight());
-			*/
 			g.setColor(new Color(96, 98, 102, 1));
 			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			
@@ -129,6 +130,9 @@ public class GamePanel extends JPanel {
 			
 			g.setColor(Color.BLACK);
 			g.drawString("Press ESC to continue playing", 165, 180);
+						
+			for(MenuButton b : pause_buttons)
+				b.render(g, g2, 15);
 		}
 	}
 	public void clicked(MenuButton b) {
@@ -141,6 +145,9 @@ public class GamePanel extends JPanel {
 		}else if(b.getMessage() == "Hard") {
 			game.setGameState(3);
 			game.setShowingCursor(false);
+		}else if(b.getMessage() == "Main Menu") {
+			game.setGameState(0);
+			game.setShowingCursor(true);
 		}
 	}
 	
