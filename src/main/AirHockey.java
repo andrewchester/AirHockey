@@ -20,12 +20,11 @@ public class AirHockey implements Runnable{
 	
 	//System Variables
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game, 4 = paused
-	private final int WIDTH = 486;
-	private final int HEIGHT = 750;
+	private int difficulty = 0; //0 = easy, 1 = medium, 2 = hard
+	private final int WIDTH = 496;
+	private final int HEIGHT = 759;
 	private final int FPS = 60;
 	private int mx = 0, my = 0;
-	private boolean showingCursor = true;
-	
 	//Thread
 	private Thread updateThread;
 	private boolean running = false;
@@ -48,27 +47,29 @@ public class AirHockey implements Runnable{
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 					mx = e.getX();
-					
 					my = e.getY();
 					
-					if(gameState == 0)
+					if(gameState == 0 || gameState == 4) {
 						for(MenuButton b : panel.getButtons())
-							if(b.getBounds().contains(mx - 5, my - 20)) { 
+							if(b.getBounds().contains(mx - 5, my - 20)) 
 								b.setHovered(true);
-								frame.setCursor(Cursor.HAND_CURSOR);
-							}else {
+							else 
 								b.setHovered(false);
-								frame.setCursor(Cursor.DEFAULT_CURSOR);
-							}
+					}
 			}
 		});
 		
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if(gameState == 0)
-					for(MenuButton b : panel.getButtons())
+				if(gameState == 0) {
+					for(MenuButton b : panel.getMenuButtons())
 						if(b.getBounds().contains(mx - 5, my - 20))
 							panel.clicked(b);
+				}else if(gameState == 4) {
+					for(MenuButton b : panel.getPauseButtons())
+						if(b.getBounds().contains(mx - 5, my - 20))
+							panel.clicked(b);
+				}
 			}
 		});
 		
@@ -125,14 +126,21 @@ public class AirHockey implements Runnable{
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}
-	public void setShowingCursor(boolean showingCursor) {
-		this.showingCursor = showingCursor;
-		if(!showingCursor) {
-			BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
-			frame.getContentPane().setCursor(blankCursor);
-		}else {
-			frame.setCursor(Cursor.getDefaultCursor());
-		}
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+	public int getDifficulty() {
+		return difficulty;
+	}
+	public JFrame getFrame() {
+		return frame;
+	}
+	public void hideCursor() {
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+		frame.getContentPane().setCursor(blankCursor);
+	}
+	public void showCursor() {
+		frame.getContentPane().setCursor(Cursor.getDefaultCursor());
 	}
 }

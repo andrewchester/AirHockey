@@ -147,13 +147,7 @@ public class Physics {
 	    float distSqr = (x_dif * x_dif) + (y_dif * y_dif);
 
 	    if (distSqr <= sqrRadius)
-	    {
-	        float new_velx = 0, new_vely = 0;
-	        
-	        new_velx = (float) ((p.getVelX() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelX())) / (p.getMass() + puck.getMass()));
-	        new_vely = (float) ((p.getVelY() * (p.getMass() - puck.getMass()) + 2 * (puck.getMass() * puck.getVelY())) / (p.getMass() + puck.getMass()));
-	        
-	        
+	    {   
 	        //Really awful if statements don't look pls
 	        if(puck.getY() < p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Top
 	        	if(p.getVelY() < 0)
@@ -194,31 +188,38 @@ public class Physics {
 		
 		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) { //Left and right walls
 			if(angle > 0 && angle < 90) { //Hitting right wall going up
+				p.setX(466 - p.getRadius());
 				new_angle = 270 + (90 - angle);
 			}else if(angle > 90 && angle < 180) { //Hitting right wall going down
+				p.setX(466 - p.getRadius());
 				new_angle = 270 - (angle - 90);
 			}else if (angle == 90) {
 				new_angle += 180;
 			}
 			
 			if(angle > 270 && angle < 360) { //Hitting left wall going up
+				p.setX(15 + p.getRadius());
 				new_angle = 90 - (angle - 270);
 			}else if(angle > 180 && angle < 270) { //Hitting left wall going down
+				p.setX(15 + p.getRadius());
 				new_angle = 90 + (270 - angle);
 			}else if(angle == 270) {
 				new_angle -= 180;
 			}
 		}
-		if((int)p.getY()-p.getRadius() < 15 || (int)p.getY()+p.getRadius() > 750 - 44) { //Top and botttom walls
+		if((int)p.getY()-p.getRadius() < 20 || (int)p.getY()+p.getRadius() > 759 - 50) { //Top and botttom walls
 			if(angle > 0 && angle < 90) { //Hitting top wall going right
+				p.setY(20 + p.getRadius());
 				new_angle = 90 + (90 - angle);
 			}else if(angle > 270 && angle < 360) { //Hitting top wall going left
+				p.setY(20 + p.getRadius());
 				new_angle = 270 - (angle - 270);
 			}else if (angle == 0) {
 				new_angle += 180;
 			}
 			
 			if(angle > 90 && angle < 180) { //Hitting bottom wall going right
+				p.setY((759 - 65) - p.getRadius());
 				new_angle = 90 - (angle - 90);
 			}else if(angle > 180 && angle < 270) { //Hitting bottom wall going left
 				new_angle = 270 + (270 - angle);
@@ -230,9 +231,6 @@ public class Physics {
 			p.setDir(new_angle);
 	}
 	public static float[] calcAngle(Player p, Puck puck) {
-		System.out.println(p.getVelX() + ", " + p.getVelY());
-		System.out.println(puck.getVelX() + ", " + puck.getVelY());
-		
 		float new_velx = p.getVelX() + puck.getVelX();
 		float new_vely = p.getVelY() + puck.getVelY();
 		

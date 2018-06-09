@@ -27,33 +27,21 @@ public class Player {
 		
 		int startx = x, starty = y;
 		
-		float x_dif = Math.abs(x - mx);
-		float y_dif = Math.abs(y - my);
-		
-		if(x_dif > SL) {
-			while(x_dif > SL)
-				x_dif -= 1;
-		}
-		if(y_dif > SL) {
-			while(y_dif > SL)
-				y_dif -= 1;
-		}
-		
 		if((mx - radius) - 5 <= 15)
 			this.x = 15;
-		else if(mx + radius >= game.getWidth() - 29)
-			this.x = (game.getWidth() - 20) - radius * 2;
+		else if(mx + radius >= game.getWidth() - 30)
+			this.x = (game.getWidth() - 30) - radius * 2;
 		else
 			this.x = mx - 27; 
 		
-		if(my < (game.getHeight() / 2) + 25) 
+		if(my < (game.getHeight() / 2) + 30) 
 			this.y = (game.getHeight() / 2) - 14; 
-		else if(my >= game.getHeight() - 44)
-			this.y = (game.getHeight() - 44) - radius * 2;
+		else if(my >= game.getHeight() - 54)
+			this.y = (game.getHeight() - 54) - radius * 2;
 		else
 			this.y = my - 45; 
 		
-		//made it a float for the calculation, may take out 0.75 later
+		//made it a float for the calculation, may round out 0.75 if it's an int
 		velx = (float) ((x - startx) * 0.75);
 		vely = (float) ((y - starty) * 0.75);
 	}

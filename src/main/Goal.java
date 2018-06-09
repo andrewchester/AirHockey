@@ -10,7 +10,7 @@ public class Goal {
 	private Rectangle bounds;
 	
 	Goal(int x, int y){
-		this.bounds = new Rectangle(x, y, 200, 7);
+		this.bounds = new Rectangle(x, y, 100, 10);
 	}
 	
 	public void render(Graphics2D g) {
@@ -21,8 +21,7 @@ public class Goal {
 	public Rectangle getBounds() {
 		return bounds;
 	}
-	public boolean inGoal(float x, float y) {
-		System.out.println("Goal scored");
-		return bounds.contains(new Point((int)x,(int)y));
+	public boolean inGoal(Puck p) {
+		return bounds.intersects(p.getBounds());
 	}
 }

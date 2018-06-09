@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 public class Puck {
@@ -17,7 +18,7 @@ public class Puck {
 		this.x = x;
 		this.y = y;
 		
-		this.vel = 10;
+		this.vel = 1;
 		this.dir = 175;
 		
 		this.velx = Physics.calcVels(vel, dir)[0];
@@ -90,5 +91,8 @@ public class Puck {
 	}
 	public void setDir(float dir) {
 		this.dir = dir;
+	}
+	public Rectangle getBounds() {
+		return new Rectangle((int)x, (int)y, radius * 2, radius * 2);
 	}
 }

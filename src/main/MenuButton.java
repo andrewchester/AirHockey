@@ -23,7 +23,7 @@ public class MenuButton {
 		this.message = message;
 		this.c = c;
 		
-		this.bounds = new Rectangle(x, y, w, h);
+		this.bounds = new Rectangle(x, y + 10, w, h);
 	}
 	
 	public void render(Graphics g, Graphics2D g2, int fontSize) {
@@ -42,7 +42,10 @@ public class MenuButton {
 		int messageWidth = g.getFontMetrics().stringWidth(message);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Calibri", Font.PLAIN, fontSize));
-		g.drawString(message, x + ((w / 2) - (messageWidth/2)), y + (h / 2) + 6);
+		if(message == "Easy") 
+			g.drawString(message, x + 30, y + (h / 2) + 6);
+		else
+			g.drawString(message, x + ((w / 2) - (messageWidth/2)), y + (h / 2) + 6);
 	}
 	
 	public Rectangle getBounds() {
