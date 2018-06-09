@@ -41,7 +41,6 @@ public class Player {
 		else
 			this.y = my - 45; 
 		
-		//made it a float for the calculation, may round out 0.75 if it's an int
 		velx = (float) ((x - startx) * 0.75);
 		vely = (float) ((y - starty) * 0.75);
 	}
@@ -59,8 +58,6 @@ public class Player {
 		g.setColor(new Color(0, 51, 255));
 		s2.setFrame(x + (radius / 2), y + (radius / 2), radius, radius);
 		g2.fill(s2);
-		
-		//g.drawRect(x, y, radius * 2, radius * 2);
 	}
 	
 	public int getRadius() {
@@ -72,7 +69,6 @@ public class Player {
 	public int getY() {
 		return y + radius;
 	}
-	//issa float
 	public float getVelX() {
 		return Math.abs(velx);
 	}

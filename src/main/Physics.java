@@ -181,6 +181,51 @@ public class Physics {
 	        puck.setVel((float) new_vel);
 	    }
 	}
+public static void collides(AI a, Puck puck) { //Uses the distance formula
+		
+		float x_dif = a.getX() - puck.getX();
+	    float y_dif = a.getY() - puck.getY();
+
+	    float total_radius = a.getRadius() + puck.getRadius();
+	    float sqrRadius = total_radius * total_radius;
+
+	    float distSqr = (x_dif * x_dif) + (y_dif * y_dif);
+
+	    if (distSqr <= sqrRadius)
+	    {   
+	        //Really awful if statements don't look pls
+	        if(puck.getY() < a.getY() && puck.getX() > (a.getX() - a.getRadius()) && puck.getX() < (a.getX() + a.getRadius())) { //Top
+	        	if(a.getVelY() < 0)
+		        	puck.setY(a.getY() - (a.getRadius() + puck.getRadius() - a.getVelY() + 1));
+		        else
+			        puck.setY(a.getY() - (a.getRadius() + puck.getRadius() + 1));
+	        }else if(puck.getY() > a.getY() && puck.getX() > (a.getX() - a.getRadius()) && puck.getX() < (a.getX() + a.getRadius())) { //Bottom
+	        	if(a.getVelY() > 0)
+		        	puck.setY(a.getY() + (a.getRadius() + puck.getRadius() + a.getVelY() + 1));
+		        else
+			        puck.setY(a.getY() + (a.getRadius() + puck.getRadius() + 1));
+	        	
+	        }else if(puck.getX() < a.getX() && puck.getY() > (a.getY() - a.getRadius()) && puck.getY() < (a.getY() + a.getRadius())) { //Left
+	        	if(a.getVelX() < 0)
+	        		puck.setX(a.getX() - (a.getRadius() + puck.getRadius() - a.getVelX() + 1));
+	        	else
+	        		puck.setX(a.getX() - (a.getRadius() + puck.getRadius() + 1));
+	        }else if(puck.getX() > a.getX() && puck.getY() > (a.getY() - a.getRadius()) && puck.getY() < (a.getY() + a.getRadius())) { //Right
+	        	if(a.getVelX() > 0)
+	        		puck.setX(a.getX() + (a.getRadius() + puck.getRadius() + a.getVelX() + 1));
+	        	else
+	        		puck.setX(a.getX() + (a.getRadius() + puck.getRadius() + 1));
+	        }
+	        
+	        puck.setDir((float) reflectAngle(puck.getDir()));
+	        float new_vel = (float) calcVel(a.getVelX() + puck.getVelX(), a.getVelY() + puck.getVelY())[0];
+	        
+	        if(Math.abs(new_vel) > SPEED_LIMIT)
+	        	new_vel = new_vel / (new_vel / SPEED_LIMIT);
+	        	
+	        puck.setVel((float) new_vel);
+	    }
+	}
 	public static void collidesWall(Puck p) { //For walls
 		
 		float angle = p.getDir();
@@ -255,10 +300,4 @@ public class Physics {
 		}
 		return newA;
 	}
-	/*
-	 * public static boolean collides(Ai a, Puck p){
-	 * 		Method for when we implement ai
-	 * 
-	 * }
-	 */
 }

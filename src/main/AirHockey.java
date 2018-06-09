@@ -18,9 +18,9 @@ public class AirHockey implements Runnable{
 	private GamePanel panel;
 	private Player player;
 	
-	//System Variables
+	//Game Variables
 	int gameState = 0; //0 = main menu, 1 = difficulty menu, 2 = Game over/Score, 3 = game, 4 = paused
-	private int difficulty = 0; //0 = easy, 1 = medium, 2 = hard
+	private int difficulty = 0; //0 = easy, 1 = hard
 	private final int WIDTH = 496;
 	private final int HEIGHT = 759;
 	private final int FPS = 60;

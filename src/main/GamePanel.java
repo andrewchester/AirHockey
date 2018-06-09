@@ -26,6 +26,7 @@ public class GamePanel extends JPanel {
 	private Image background_resized;
 	
 	private Puck puck;
+	private AI a;
 	private Goal topGoal, bottomGoal;
 	
 	private byte playerScore = 0, enemyScore = 0;
@@ -42,11 +43,8 @@ public class GamePanel extends JPanel {
 		this.game = game;
 		
 		menu_buttons = new ArrayList<MenuButton>();
-		//menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 100, 100, 50, "Start", new Color(239, 69, 69)));
-		//menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Scores", new Color(239, 69, 69)));
-		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 125, 100, 50, "Easy", new Color(239, 69, 69)));
-		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Medium", new Color(239, 69, 69)));
-		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 275, 100, 50, "Hard", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 125, 100, 50, "Regular", new Color(239, 69, 69)));
+		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Impossible", new Color(239, 69, 69)));
 		
 		pause_buttons = new ArrayList<MenuButton>();
 		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 210, 100, 35, "Main Menu", new Color(239, 69, 69)));
@@ -68,6 +66,8 @@ public class GamePanel extends JPanel {
 		if(game.getGameState() == 3) {
 			puck.update();
 			game.getPlayer().update(game.getMX(), game.getMY());
+			a.update();
+			
 			if(topGoal.inGoal(puck)) {
 				playerScore++;
 				goalScored(true);
@@ -76,10 +76,9 @@ public class GamePanel extends JPanel {
 				goalScored(false);
 			}
 			if(playerScore >= 7) {
-				
+				goalScored(true);
 				reset();
 			}else if(enemyScore >= 7) {
-				
 				reset();
 			}
 		}
@@ -93,19 +92,10 @@ public class GamePanel extends JPanel {
 		if(game.getGameState() == 3) {						//Playing the game
 			g.drawImage(background_resized, 0, 0, null);
 			
-			g.setColor(Color.RED);
-			
-			//Drawing boundaries for the player, just for testing will be removed later 
-			/*
-			g.drawLine(0, (game.getHeight() / 2) - 14, game.getWidth(), (game.getHeight() / 2) - 18); //??????? Middle line
-			g.drawLine(15, 0, 15, game.getHeight()); //Left
-			g.drawLine(game.getWidth() - 20, 0, game.getWidth() - 20, game.getHeight()); //Right
-			g.drawLine(0, game.getHeight() - 44, game.getWidth(), game.getHeight() - 44); //Bottom
-			g.drawLine(0,  15, game.getWidth(), 15); //Top
-			*/
-			
 			game.getPlayer().render(g);
 			puck.render(g);
+		
+			a.render(g);
 			
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -150,7 +140,7 @@ public class GamePanel extends JPanel {
 	public void goalScored(boolean playerScored) {
 		if(playerScored) {
 			puck.setX(game.getWidth() / 2);
-			puck.setY((game.getHeight() / 2) - 100);
+			puck.setY((game.getHeight() / 2) - 200);
 		}else {
 			puck.setX(game.getWidth() / 2);
 			puck.setY((game.getHeight() / 2) + 100);
@@ -166,36 +156,42 @@ public class GamePanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		a.setX((game.getWidth() / 2) - 16);
+		a.setY(50);
 	}
 	public void reset() {
 		playerScore = 0;
 		enemyScore = 0;
+
+		puck.setX((game.getWidth() / 2) + 16);
+		puck.setY((game.getHeight() / 2));
+		
+		a.setX((game.getWidth() / 2) - 16);
+		a.setY(50);
+		
 		game.setGameState(3);
-		game.showCursor();
+		game.hideCursor();
 	}
 	public void clicked(MenuButton b) {
-		if(b.getMessage() == "Easy") {
-			game.setDifficulty(0);
-			//ai
-			game.setGameState(3);
-			game.hideCursor();
-		}else if(b.getMessage() == "Medium") {
-			game.setDifficulty(1);
-			//ai
-			game.setGameState(3);
-			game.hideCursor();
-		}else if(b.getMessage() == "Hard") {
-			game.setDifficulty(2);
-			//ai
-			game.setGameState(3);
-			game.hideCursor();
+		if(game.getGameState() == 0) {
+			if(b.getMessage() == "Regular") {
+				game.setDifficulty(0);
+				a = new AI((game.getWidth() / 2) - 16, 50, 0, game);
+				game.setGameState(3);
+				game.hideCursor();
+			}else if(b.getMessage() == "Impossible") {
+				game.setDifficulty(1);
+				a = new AI((game.getWidth() / 2) - 16, 50, 1, game);
+				game.setGameState(3);
+				game.hideCursor();
+			}
 		}
 		
 		if(game.getGameState() == 4) {
 			if(b.getMessage() == "Main Menu") {
-				game.showCursor();
-				game.setGameState(0);
 				reset();
+				game.setGameState(0);
+				game.showCursor();
 			}else if(b.getMessage() == "Restart") {
 				game.hideCursor();
 				reset();
