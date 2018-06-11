@@ -18,11 +18,16 @@ public class Puck {
 		this.x = x;
 		this.y = y;
 		
+		this.velx = 0;
+		this.vely = 0;
+		
+		/*
 		this.vel = 0;
 		this.dir = 175;
 		
 		this.velx = Physics.calcVels(vel, dir)[0];
 		this.vely = Physics.calcVels(vel, dir)[1];
+		*/
 		
 		this.radius = 10;
 		this.mass = 1.25;
@@ -33,12 +38,12 @@ public class Puck {
 	public void update() {
 		Physics.collides(game.getPlayer(), this);
 		Physics.collidesWall(this);
-		
+		/*
 		this.velx = Physics.calcVels(vel, dir)[0];
 		this.vely = Physics.calcVels(vel, dir)[1];
 		
 		vel = Physics.adjust(vel);
-		
+		*/
 		this.x += velx;
 		this.y += vely;
 	}

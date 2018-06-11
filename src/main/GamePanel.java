@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
 		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 210, 100, 35, "Main Menu", new Color(239, 69, 69)));
 		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 260, 100, 35, "Restart", new Color(239, 69, 69)));
 		
-		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 28);
+		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 20);
 		topGoal = new Goal((game.getWidth() / 2) - 50, 15);
 		bottomGoal = new Goal((game.getWidth() / 2) - 50, game.getHeight() - 65);
 		
@@ -74,12 +74,13 @@ public class GamePanel extends JPanel {
 			}else if(bottomGoal.inGoal(puck)) {
 				enemyScore++;
 				goalScored(false);
-			}
-			if(playerScore >= 7) {
+			}if(playerScore >= 7) {
 				goalScored(true);
 				reset();
+				game.setGameState(2);
 			}else if(enemyScore >= 7) {
 				reset();
+				game.setGameState(2);
 			}
 		}
 		
@@ -112,13 +113,26 @@ public class GamePanel extends JPanel {
 			int stringWidth = g.getFontMetrics().stringWidth("Air Hockey");
 			g.drawString("Air Hockey", (game.getWidth()/2)-(stringWidth/2), 70);
 			
-		}else if(game.getGameState() == 1) {                //Difficulty Menu
+		}else if(game.getGameState() == 2) {                //Game over
+			g.setColor(new Color(96, 98, 102, 1));
+			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(155, 155, 200, 200);
 			
+			g.setColor(Color.WHITE);
+			g.fillRect(150, 150, 200, 200);
 			
-		}else if(game.getGameState() == 2) {                //Game over/Score Menu
+			g.setColor(Color.BLACK);
 			
-			
+			if(playerScore == 7) {
+				g.drawString("Player Won!" + playerScore + "-" + enemyScore, 165, 180);
+			}else if(enemyScore == 7) {
+				g.drawString("AI Won!" + enemyScore + "-" + playerScore, 165, 180);
+			}
+						
+			for(MenuButton b : pause_buttons)
+				b.render(g, g2, 15);
 			
 		}else if(game.getGameState() == 4) {                //Pause menu
 			g.setColor(new Color(96, 98, 102, 1));

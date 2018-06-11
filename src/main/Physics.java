@@ -110,16 +110,6 @@ public class Physics {
 		return values;
 	}
 	
-	////////// SAMPLE METHODS, these need to be updated to use mass /////////////
-	public static float getVelX(float mass, float current_vel) {
-		float new_vel = current_vel * -1;
-		return new_vel;
-	}
-	public static float getVelY(float mass, float current_vel) { 
-		float new_vel = current_vel * -1;
-		return new_vel;
-	}
-	//////////////////////////
 	
 	public static float totalVel(float velx, float vely) {
 		float velocity = (float) Math.sqrt((velx * velx) + (vely * vely));
@@ -173,12 +163,12 @@ public class Physics {
 	        }
 	        
 	        puck.setDir((float) reflectAngle(puck.getDir()));
-	        float new_vel = (float) calcVel(p.getVelX() + puck.getVelX(), p.getVelY() + puck.getVelY())[0];
-	        
-	        if(Math.abs(new_vel) > SPEED_LIMIT)
-	        	new_vel = new_vel / (new_vel / SPEED_LIMIT);
-	        	
-	        puck.setVel((float) new_vel);
+	        //float new_vel = (float) calcVel(p.getVelX() + puck.getVelX(), p.getVelY() + puck.getVelY())[0];
+	        float new_velX = (float) (((p.getMass()*p.getVelX()) + (puck.getMass()*puck.getVelX()) - p.getMass())/puck.getMass());
+	        float new_velY = (float) (((p.getMass()*p.getVelY()) + (puck.getMass()*puck.getVelY()) - p.getMass())/puck.getMass());
+	       
+	        puck.setVelX(new_velX);
+	        puck.setVelY(new_velY);
 	    }
 	}
 public static void collides(AI a, Puck puck) { //Uses the distance formula
