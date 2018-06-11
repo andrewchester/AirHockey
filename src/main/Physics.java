@@ -217,7 +217,14 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 	    }
 	}
 	public static void collidesWall(Puck p) { //For walls
+		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) { //Left and right walls
+			p.setVelX(p.getVelX() * -1);
+		}
+		if((int)p.getY()-p.getRadius() < 20 || (int)p.getY()+p.getRadius() > 759 - 50) { //Top and botttom walls
+			p.setVelY(p.getVelY() * -1);
+		}
 		
+		/*
 		float angle = p.getDir();
 		float new_angle = p.getDir();
 		
@@ -264,6 +271,7 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 		}
 		if(new_angle != angle)
 			p.setDir(new_angle);
+			*/
 	}
 	public static float[] calcAngle(Player p, Puck puck) {
 		float new_velx = p.getVelX() + puck.getVelX();
