@@ -79,20 +79,24 @@ public class GamePanel extends JPanel {
 			
 			//Increasing score
 			if(topGoal.inGoal(puck)) {
+				System.out.println("Goal scored");
 				playerScore++;
 				goalScored(true);
 			}else if(bottomGoal.inGoal(puck)) {
+				System.out.println("Goal scored");
 				enemyScore++;
 				goalScored(false);
 			}
 			//Win conditions
 			if(playerScore >= 7) {
 				goalScored(true);
-				reset();
+				//reset();
 				game.setGameState(2);
+				game.showCursor();
 			}else if(enemyScore >= 7) {
-				reset();
+				//reset();
 				game.setGameState(2);
+				game.showCursor();
 			}
 		}
 		
@@ -127,7 +131,7 @@ public class GamePanel extends JPanel {
 			int stringWidth = g.getFontMetrics().stringWidth("Air Hockey");
 			g.drawString("Air Hockey", (game.getWidth()/2)-(stringWidth/2), 70);
 			
-		}else if(game.getGameState() == 2) {                //Game over
+		}else if(game.getGameState() == 2) {    //Game over
 			
 			g.setColor(new Color(96, 98, 102, 1));
 			g.fillRect(0, 0, game.getWidth(), game.getHeight());
@@ -141,9 +145,9 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.BLACK);
 			
 			if(playerScore == 7) {
-				g.drawString("Player Won!" + playerScore + "-" + enemyScore, 165, 180);
-			}else if(enemyScore == 7) {
-				g.drawString("AI Won!" + enemyScore + "-" + playerScore, 165, 180);
+				g.drawString("Player Won! " + playerScore + "-" + enemyScore, 165, 180);
+			}else if(enemyScore <= 7) {
+				g.drawString("AI Won! " + enemyScore + "-" + playerScore, 165, 180);
 			}
 						
 			for(MenuButton b : pause_buttons)
@@ -222,7 +226,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 		//Pause menu actions
-		if(game.getGameState() == 4) {
+		if(game.getGameState() == 4 || game.getGameState() == 2) {
 			if(b.getMessage() == "Main Menu") {
 				reset();
 				game.setGameState(0);

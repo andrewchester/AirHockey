@@ -52,7 +52,7 @@ public class AirHockey implements Runnable{
 					mx = e.getX();
 					my = e.getY();
 					
-					if(gameState == 0 || gameState == 4) {
+					if(gameState == 0 || gameState == 4 || gameState == 2) {
 						for(MenuButton b : panel.getButtons())
 							if(b.getBounds().contains(mx - 5, my - 20)) 
 								b.setHovered(true);
@@ -68,7 +68,7 @@ public class AirHockey implements Runnable{
 					for(MenuButton b : panel.getMenuButtons())
 						if(b.getBounds().contains(mx - 5, my - 20))
 							panel.clicked(b);
-				}else if(gameState == 4) {
+				}else if(gameState == 4 || gameState == 2) {
 					for(MenuButton b : panel.getPauseButtons())
 						if(b.getBounds().contains(mx - 5, my - 20))
 							panel.clicked(b);

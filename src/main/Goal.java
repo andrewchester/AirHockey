@@ -24,7 +24,7 @@ public class Goal {
 	public Rectangle getBounds() {
 		return bounds;
 	}
-	public boolean inGoal(Puck p) { //returns true/false depending if the point passed is inside the 
+	public boolean inGoal(Puck p) { //returns true/false depending if the point passed is inside the goal
 		return bounds.intersects(p.getBounds());
 	}
 }

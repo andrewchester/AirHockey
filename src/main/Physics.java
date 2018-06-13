@@ -161,15 +161,19 @@ public class Physics {
 	        }
 	        
 	        puck.setDir((float) reflectAngle(puck.getDir()));
-	        //float new_vel = (float) calcVel(p.getVelX() + puck.getVelX(), p.getVelY() + puck.getVelY())[0];
-	        float new_velX = (float) (((p.getMass()*p.getVelX()) + (puck.getMass()*puck.getVelX()) - p.getMass())/puck.getMass());
-	        float new_velY = (float) (((p.getMass()*p.getVelY()) + (puck.getMass()*puck.getVelY()) - p.getMass())/puck.getMass());
+	        float new_vel = (float) calcVel(p.getVelX() + puck.getVelX(), p.getVelY() + puck.getVelY())[0];
+	        //float new_velX = (float) (((p.getMass()*p.getVelX()) + (puck.getMass()*puck.getVelX()) - p.getMass())/puck.getMass());
+	        //float new_velY = (float) (((p.getMass()*p.getVelY()) + (puck.getMass()*puck.getVelY()) - p.getMass())/puck.getMass());
 	       
-	        puck.setVelX(new_velX);
-	        puck.setVelY(new_velY);
+	        //puck.setVelX(new_velX);
+	        //puck.setVelY(new_velY);
+	        if(Math.abs(new_vel) > SPEED_LIMIT)
+	        	new_vel = new_vel / (new_vel / SPEED_LIMIT);
+	        
+	        puck.setVel(new_vel);
 	    }
 	}
-public static void collides(AI a, Puck puck) { //Uses the distance formula
+	public static void collides(AI a, Puck puck) { //Uses the distance formula
 		
 		float x_dif = a.getX() - puck.getX();
 	    float y_dif = a.getY() - puck.getY();
