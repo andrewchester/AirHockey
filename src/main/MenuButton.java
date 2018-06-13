@@ -6,7 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-
+/*
+ * Made our own MenuButton class so the button was a rect with a drop shadow 
+ * 
+ */
 public class MenuButton {
 
 	private String message;
@@ -23,13 +26,14 @@ public class MenuButton {
 		this.message = message;
 		this.c = c;
 		
-		this.bounds = new Rectangle(x, y + 10, w, h);
+		this.bounds = new Rectangle(x, y + 10, w, h);//Bounds for calculating if the mouse pressed it
 	}
 	
 	public void render(Graphics g, Graphics2D g2, int fontSize) {
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//Antialiasing
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x + 5, y + 5, w, h);
+		//Hovered variable which is set if the mx and my is on the button, makes the color a little lighter
 		if(hovered) 
 			g.setColor(c.brighter());
 		else 
@@ -39,10 +43,11 @@ public class MenuButton {
 		g.setColor(Color.GRAY);
 		g.drawRect(x, y, w, h);
 		
+		//Calculates the messages pixel width in order to center it in the button
 		int messageWidth = g.getFontMetrics().stringWidth(message);
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Calibri", Font.PLAIN, fontSize));
-		if(message == "Regular") 
+		if(message == "Regular") //Doesn't work with the first menu button for some reason, so we had to do this awkward work around
 			g.drawString(message, x + 20, y + (h / 2) + 6);
 		else
 			g.drawString(message, x + ((w / 2) - (messageWidth/2)), y + (h / 2) + 6);

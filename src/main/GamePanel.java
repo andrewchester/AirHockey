@@ -18,7 +18,11 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
+/*
+ * 
+ * The GamePanel class extends JPanel and handles drawing objects, updating them, resetting the board, and win/lose conditions.
+ * 
+ */
 public class GamePanel extends JPanel {
 
 	private AirHockey game;
@@ -31,6 +35,7 @@ public class GamePanel extends JPanel {
 	
 	private byte playerScore = 0, enemyScore = 0;
 	
+	//All buttons
 	private ArrayList<MenuButton> menu_buttons;
 	private ArrayList<MenuButton> pause_buttons;
 	
@@ -42,18 +47,22 @@ public class GamePanel extends JPanel {
 		
 		this.game = game;
 		
+		//Create the main menu buttons
 		menu_buttons = new ArrayList<MenuButton>();
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 125, 100, 50, "Regular", new Color(239, 69, 69)));
 		menu_buttons.add(new MenuButton((game.getWidth() / 2) - 50, 200, 100, 50, "Impossible", new Color(239, 69, 69)));
 		
+		//Create the pause menu buttons
 		pause_buttons = new ArrayList<MenuButton>();
 		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 210, 100, 35, "Main Menu", new Color(239, 69, 69)));
 		pause_buttons.add(new MenuButton((game.getWidth() / 2) - 45, 260, 100, 35, "Restart", new Color(239, 69, 69)));
 		
+		//Initialize the puck(the player is in the game class)
 		puck = new Puck(game, (game.getWidth() / 2) - 16, (game.getHeight() / 2) - 20);
 		topGoal = new Goal((game.getWidth() / 2) - 50, 15);
 		bottomGoal = new Goal((game.getWidth() / 2) - 50, game.getHeight() - 65);
 		
+		//Resize the background image to the window width height
 		try {
 			background = ImageIO.read(new File("cheating.jpeg"));
 			background_resized = background.getScaledInstance(480, 720, Image.SCALE_DEFAULT);
@@ -61,20 +70,23 @@ public class GamePanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
+	//Update method, runs every 16 millis or so
 	public void update() {
 		if(game.getGameState() == 3) {
 			puck.update();
 			game.getPlayer().update(game.getMX(), game.getMY());
 			a.update();
 			
+			//Increasing score
 			if(topGoal.inGoal(puck)) {
 				playerScore++;
 				goalScored(true);
 			}else if(bottomGoal.inGoal(puck)) {
 				enemyScore++;
 				goalScored(false);
-			}if(playerScore >= 7) {
+			}
+			//Win conditions
+			if(playerScore >= 7) {
 				goalScored(true);
 				reset();
 				game.setGameState(2);
@@ -84,7 +96,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 		
-		repaint();
+		repaint(); //Rendering objects to screen
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -102,7 +114,9 @@ public class GamePanel extends JPanel {
 			g.setFont(new Font("Calibri", Font.BOLD, 30));
 			g.drawString("" + playerScore, game.getWidth() - 40, game.getHeight() - 45);
 			g.drawString("" + enemyScore, game.getWidth() - 40, 25);
+			
 		}else if(game.getGameState() == 0) {                //Main menu 
+			
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			
@@ -114,6 +128,7 @@ public class GamePanel extends JPanel {
 			g.drawString("Air Hockey", (game.getWidth()/2)-(stringWidth/2), 70);
 			
 		}else if(game.getGameState() == 2) {                //Game over
+			
 			g.setColor(new Color(96, 98, 102, 1));
 			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			
@@ -135,6 +150,7 @@ public class GamePanel extends JPanel {
 				b.render(g, g2, 15);
 			
 		}else if(game.getGameState() == 4) {                //Pause menu
+			
 			g.setColor(new Color(96, 98, 102, 1));
 			g.fillRect(0, 0, game.getWidth(), game.getHeight());
 			
@@ -151,6 +167,7 @@ public class GamePanel extends JPanel {
 				b.render(g, g2, 15);
 		}
 	}
+	//Reset the board, putting the puck on one side or another depending on who scored
 	public void goalScored(boolean playerScored) {
 		if(playerScored) {
 			puck.setX(game.getWidth() / 2);
@@ -162,6 +179,7 @@ public class GamePanel extends JPanel {
 		
 		puck.setVel(0);
 		
+		//Move the mouse to the player's side of the board
 		try {
 			Robot r = new Robot();
 			int wx = (int)game.getFrame().getLocation().getX(), wy = (int)game.getFrame().getLocation().getY();
@@ -173,6 +191,7 @@ public class GamePanel extends JPanel {
 		a.setX((game.getWidth() / 2) - 16);
 		a.setY(50);
 	}
+	//Reset the board in playing game state
 	public void reset() {
 		playerScore = 0;
 		enemyScore = 0;
@@ -186,8 +205,10 @@ public class GamePanel extends JPanel {
 		game.setGameState(3);
 		game.hideCursor();
 	}
+	//When a button is clicked, gets a button passed into it from the AirHockey class
 	public void clicked(MenuButton b) {
 		if(game.getGameState() == 0) {
+			//Different difficulties
 			if(b.getMessage() == "Regular") {
 				game.setDifficulty(0);
 				a = new AI((game.getWidth() / 2) - 16, 50, 0, game);
@@ -200,7 +221,7 @@ public class GamePanel extends JPanel {
 				game.hideCursor();
 			}
 		}
-		
+		//Pause menu actions
 		if(game.getGameState() == 4) {
 			if(b.getMessage() == "Main Menu") {
 				reset();
@@ -213,7 +234,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
-	//pause menu
+	//toggle the pause menu
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_ESCAPE) {
@@ -226,7 +247,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 	}
-	
+	//Combines the menu_buttons and pause_buttons arrays so that you can get every button in the game
 	public ArrayList<MenuButton> getButtons(){
 		ArrayList<MenuButton> temp = new ArrayList<MenuButton>();
 		temp.addAll(menu_buttons);

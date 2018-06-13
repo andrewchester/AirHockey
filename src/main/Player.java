@@ -5,7 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
-
+/*
+ * 
+ * Player class, handles drawing the player's paddle to the screen, and getting its x and y velocity
+ */
 public class Player {
 	private int x, y, radius;
 	private float velx, vely;
@@ -24,7 +27,8 @@ public class Player {
 	}
 	
 	public void update(int mx, int my) {
-		
+		//Gets the x and y pos before the update, then calculates the x/y velocity after the update
+		//Sets the x and y pos to the mousex and mousey position
 		int startx = x, starty = y;
 		
 		if((mx - radius) - 5 <= 15)
@@ -41,19 +45,22 @@ public class Player {
 		else
 			this.y = my - 45; 
 		
+		//Velocity calculation, scaled down
 		velx = (float) ((x - startx) * 0.75);
 		vely = (float) ((y - starty) * 0.75);
 	}
-	
+	//Renders the player
 	public void render(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//Antialiasing for smooth circles
 		
+		//First ellipse
 		Ellipse2D s = new Ellipse2D.Float();
 		g.setColor(new Color(0, 153, 255));
 	    s.setFrame(x, y, radius * 2, radius * 2);
 	    g2.fill (s);
 	    
+	    //Draws a second ellipse on top of the other
 	    Ellipse2D s2 = new Ellipse2D.Float();
 		g.setColor(new Color(0, 51, 255));
 		s2.setFrame(x + (radius / 2), y + (radius / 2), radius, radius);

@@ -5,7 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-
+/*
+ * The puck class handles drawing the puck and responding to wall collisions/player collisions
+ * 
+ */
 public class Puck {
 	private float x, y, velx, vely;
 	private int radius;
@@ -34,7 +37,7 @@ public class Puck {
 		
 		this.game = game;
 	}
-	
+	//Update, player collisions and wall collisions
 	public void update() {
 		Physics.collides(game.getPlayer(), this);
 		Physics.collidesWall(this);
@@ -47,7 +50,7 @@ public class Puck {
 		this.x += velx;
 		this.y += vely;
 	}
-	
+	//Renders the puck
 	public void render(Graphics g) {
 		Graphics2D g2  = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

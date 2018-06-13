@@ -1,12 +1,14 @@
 package main;
 
-//import java.awt.Point;
+/*
+ * Physics class for calculating Physics/Collisions
+ */
 
 public class Physics {
 	
-	public static final double FRICTION = 0.005;
-	public static final double LOSS = .75;
-	public static final int SPEED_LIMIT = 10;
+	public static final double FRICTION = 0.005; //The puck's friction
+	public static final double LOSS = .75; //I honestly forget what this is
+	public static final int SPEED_LIMIT = 10; //Speed limit for the puck
 	
 	////// Method for calculating velx and vely from given velocity and direction ////////
 	public static float[] calcVels(float vel, float dir) {
@@ -87,13 +89,15 @@ public class Physics {
 		
 		return vels;
 	}
+	//Calculates the velocity and angle from a given velx/vely
 	public static float[] calcVel(float velx, float vely) {
 		float[] values = new float[2];
 		
 		float vel = 0, dir = 0;
 		
-		vel = (float) Math.sqrt((velx * velx) + (vely * vely));
+		vel = (float) Math.sqrt((velx * velx) + (vely * vely)); //Vel using pythagorean theorem 
 		
+		//Using trig to find the angle of the triangle to the nearest x-axis, and adding/subtracting it from 270/90 depending on the initial x/y velocity
 		if(velx < 0 && vely < 0) {
 			dir = (float) (270 + Math.atan((Math.abs(vely) / Math.abs(velx))));
 		}else if(velx > 0 && vely < 0) {
@@ -109,14 +113,8 @@ public class Physics {
 		
 		return values;
 	}
-	
-	
-	public static float totalVel(float velx, float vely) {
-		float velocity = (float) Math.sqrt((velx * velx) + (vely * vely));
-		return velocity;
-	}
-	
-	public static float adjust(float vel) { //Adjusting the velocity towards zero based on friction
+	//Adjusting the velocity towards zero based on friction
+	public static float adjust(float vel) { 
 		float new_vel = Math.abs(vel);
 		new_vel -= FRICTION;
 		
@@ -125,7 +123,7 @@ public class Physics {
 		else
 			return new_vel;
 	}
-	
+	//The collides method for the player and the puck
 	public static void collides(Player p, Puck puck) { //Uses the distance formula
 		
 		float x_dif = p.getX() - puck.getX();
@@ -138,7 +136,7 @@ public class Physics {
 
 	    if (distSqr <= sqrRadius)
 	    {   
-	        //Really awful if statements don't look pls
+	        //
 	        if(puck.getY() < p.getY() && puck.getX() > (p.getX() - p.getRadius()) && puck.getX() < (p.getX() + p.getRadius())) { //Top
 	        	if(p.getVelY() < 0)
 		        	puck.setY(p.getY() - (p.getRadius() + puck.getRadius() - p.getVelY() + 1));
@@ -183,7 +181,7 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 
 	    if (distSqr <= sqrRadius)
 	    {   
-	        //Really awful if statements don't look pls
+	        //Moves the puck outside the player to prevent overlap on collisions
 	        if(puck.getY() < a.getY() && puck.getX() > (a.getX() - a.getRadius()) && puck.getX() < (a.getX() + a.getRadius())) { //Top
 	        	if(a.getVelY() < 0)
 		        	puck.setY(a.getY() - (a.getRadius() + puck.getRadius() - a.getVelY() + 1));
@@ -207,15 +205,17 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 	        		puck.setX(a.getX() + (a.getRadius() + puck.getRadius() + 1));
 	        }
 	        
-	        puck.setDir((float) reflectAngle(puck.getDir()));
-	        float new_vel = (float) calcVel(a.getVelX() + puck.getVelX(), a.getVelY() + puck.getVelY())[0];
+	        puck.setDir((float) reflectAngle(puck.getDir())); //Reflects the angle
+	        float new_vel = (float) calcVel(a.getVelX() + puck.getVelX(), a.getVelY() + puck.getVelY())[0]; //Calculates the new velocity
 	        
+	        //Adjusts the new velocity based on the speed limit
 	        if(Math.abs(new_vel) > SPEED_LIMIT)
 	        	new_vel = new_vel / (new_vel / SPEED_LIMIT);
 	        	
 	        puck.setVel((float) new_vel);
 	    }
 	}
+	//If the puck collides with the wall
 	public static void collidesWall(Puck p) { //For walls
 		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) { //Left and right walls
 			p.setVelX(p.getVelX() * -1);
@@ -273,25 +273,20 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 			p.setDir(new_angle);
 			*/
 	}
-	public static float[] calcAngle(Player p, Puck puck) {
-		float new_velx = p.getVelX() + puck.getVelX();
-		float new_vely = p.getVelY() + puck.getVelY();
-		
-		return Physics.calcVel(new_velx, new_vely);
-	}
+	//Reflects an angle(may or may not be copied and pasted from the wall collisions)
 	public static float reflectAngle(float angle) {
 		float newA = 0;
-		if(angle > 0 && angle < 90) { //Hitting top wall going right
+		if(angle > 0 && angle < 90) { 
 			newA = 90 + (90 - angle);
-		}else if(angle > 270 && angle < 360) { //Hitting top wall going left
+		}else if(angle > 270 && angle < 360) { 
 			newA = 270 - (angle - 270);
 		}else if (angle == 0) {
 			newA = 180;
 		}
 		
-		if(angle > 90 && angle < 180) { //Hitting bottom wall going right
+		if(angle > 90 && angle < 180) { 
 			newA = 90 - (angle - 90);
-		}else if(angle > 180 && angle < 270) { //Hitting bottom wall going left
+		}else if(angle > 180 && angle < 270) {
 			newA = 270 + (270 - angle);
 		}else if (angle == 180) {
 			newA = 180;

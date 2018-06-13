@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-
+/*
+ * Goal has two things, the bounds, which when rendered is for debugging and the method inGoal, for detecting if a point is in the goal
+ * 
+ */
 public class Goal {
 	
 	private Rectangle bounds;
@@ -21,7 +24,7 @@ public class Goal {
 	public Rectangle getBounds() {
 		return bounds;
 	}
-	public boolean inGoal(Puck p) {
+	public boolean inGoal(Puck p) { //returns true/false depending if the point passed is inside the 
 		return bounds.intersects(p.getBounds());
 	}
 }

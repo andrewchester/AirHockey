@@ -10,7 +10,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
-
+/*
+ * Main class for AirHockey, contains Frame, keyListener, mouseListener, and the update thread
+ * 
+ */
 public class AirHockey implements Runnable{
 	
 	//Objects
@@ -43,7 +46,7 @@ public class AirHockey implements Runnable{
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setSize(WIDTH, HEIGHT);
-		
+		//Constantly gets the mouse x position and mouse y position
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 					mx = e.getX();
@@ -58,7 +61,7 @@ public class AirHockey implements Runnable{
 					}
 			}
 		});
-		
+		//Finds out which button was pressed and passes it to the panel
 		frame.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if(gameState == 0) {
@@ -72,7 +75,7 @@ public class AirHockey implements Runnable{
 				}
 			}
 		});
-		
+		//Passes the keyEvent to the panel
 		frame.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				panel.keyPressed(e);
@@ -80,14 +83,15 @@ public class AirHockey implements Runnable{
 		});
 		
 		running = true;
-		updateThread.start();
+		updateThread.start();//Starting the update thread
 		
 		frame.add(panel);
 		frame.setVisible(true);
 	}
 	
+	//The update thread, runs the update() method in panel every 16 milliseconds or so. The update() method also repaints the panel, drawing the objects to the screen
 	public void run() {
-		while(running) {
+		while(running) { 
 			panel.update();
 			try {
 				updateThread.sleep(1000 / FPS);
@@ -135,11 +139,13 @@ public class AirHockey implements Runnable{
 	public JFrame getFrame() {
 		return frame;
 	}
+	//Hides the cursor
 	public void hideCursor() {
 		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 		frame.getContentPane().setCursor(blankCursor);
 	}
+	//Shows the cursor
 	public void showCursor() {
 		frame.getContentPane().setCursor(Cursor.getDefaultCursor());
 	}
