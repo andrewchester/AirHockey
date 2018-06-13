@@ -205,8 +205,8 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 	        		puck.setX(a.getX() + (a.getRadius() + puck.getRadius() + 1));
 	        }
 	        
-	        puck.setDir((float) reflectAngle(puck.getDir())); //Reflects the angle
-	        float new_vel = (float) calcVel(a.getVelX() + puck.getVelX(), a.getVelY() + puck.getVelY())[0]; //Calculates the new velocity
+	        puck.setDir((float) reflectAngle(puck.getDir()));
+	        float new_vel = (float) calcVel(a.getVelX() + puck.getVelX(), a.getVelY() + puck.getVelY())[0];
 	        
 	        //Adjusts the new velocity based on the speed limit
 	        if(Math.abs(new_vel) > SPEED_LIMIT)
@@ -217,14 +217,15 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 	}
 	//If the puck collides with the wall
 	public static void collidesWall(Puck p) { //For walls
+		/*
 		if((int)p.getX()-p.getRadius() < 15 || (int)p.getX()+p.getRadius() > 486 - 20) { //Left and right walls
 			p.setVelX(p.getVelX() * -1);
 		}
 		if((int)p.getY()-p.getRadius() < 20 || (int)p.getY()+p.getRadius() > 759 - 50) { //Top and botttom walls
 			p.setVelY(p.getVelY() * -1);
 		}
+		*/
 		
-		/*
 		float angle = p.getDir();
 		float new_angle = p.getDir();
 		
@@ -271,7 +272,7 @@ public static void collides(AI a, Puck puck) { //Uses the distance formula
 		}
 		if(new_angle != angle)
 			p.setDir(new_angle);
-			*/
+			
 	}
 	//Reflects an angle(may or may not be copied and pasted from the wall collisions)
 	public static float reflectAngle(float angle) {
