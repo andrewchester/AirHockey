@@ -1,3 +1,2 @@
 # AirHockey
-Java AirHockey
-Airhockey game in java(using swing)
+An airhockey game in java(using swing)
